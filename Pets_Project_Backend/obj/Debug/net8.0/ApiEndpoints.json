@@ -1,0 +1,34 @@
+[
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.AuthController",
+    "Method": "Login",
+    "RelativePath": "api/Auth/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "login",
+        "Type": "Pets_Project_Backend.Data.Models.UserModels.UserDtos.UserLogin_Dto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.AuthController",
+    "Method": "RegisterUser",
+    "RelativePath": "api/Auth/Register",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "newUser",
+        "Type": "Pets_Project_Backend.Data.Models.UserModels.UserDtos.UserRegistration_Dto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  }
+]

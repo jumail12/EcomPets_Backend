@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Pets_Project_Backend.props" />
+</Project>
