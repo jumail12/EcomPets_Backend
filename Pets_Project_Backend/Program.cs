@@ -6,6 +6,9 @@ using System.Text;
 using Pets_Project_Backend.Context;
 using Pets_Project_Backend.Services.Auth_Services;
 using Pets_Project_Backend.Mapper;
+using Pets_Project_Backend.Services.Category_Services;
+using Pets_Project_Backend.Services.Product_Services;
+using Pets_Project_Backend.CloudinaryServices;
 
 namespace Pets_Project_Backend
 {
@@ -16,23 +19,28 @@ namespace Pets_Project_Backend
             var builder = WebApplication.CreateBuilder(args);
 
 
+            builder.Services.AddControllers();
+
+            // Swagger / OpenAPI
+            builder.Services.AddEndpointsApiExplorer();
             //----------------------------------------------------------------------------------------
 
             // Add services to the container.
-            builder.Services.AddSwaggerGen(c =>
+            builder.Services.AddSwaggerGen(options =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "GlideGear API", Version = "v1" });
 
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                // Add JWT Authentication in Swagger
+                options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    In = ParameterLocation.Header,
-                    Description = "Please enter 'Bearer' [space] and then your token in the text input below.\r\n\r\nExample: \"Bearer {your JWT token}\"",
                     Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "bearer"
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Enter 'Bearer' [space] and then your token"
                 });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                options.AddSecurityRequirement(new OpenApiSecurityRequirement
                 {
                     {
                         new OpenApiSecurityScheme
@@ -61,6 +69,10 @@ namespace Pets_Project_Backend
             //----------------------------------------------------------------------------------------
             // Service registration
             builder.Services.AddScoped<IAuthServices, Auth_Services>();
+            builder.Services.AddScoped<ICategoryServices,CategoryServices>();
+            builder.Services.AddScoped<IProductServices, ProductService>();
+            //cloudinary
+            builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
             //----------------------------------------------------------------------------------------
 
 
@@ -70,33 +82,41 @@ namespace Pets_Project_Backend
             //----------------------------------------------------------------------------------------
 
             // JWT service
+            // Jwt authentication
             builder.Services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(options =>
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(o =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters
+                o.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"])),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = builder.Configuration["Jwt:Issuer"],
-                    ValidAudience = builder.Configuration["Jwt:Audience"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+                    ValidateIssuerSigningKey = true
                 };
             });
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("ReactPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
+
+           
 
             builder.Services.AddAuthorization();
 
             //----------------------------------------------------------------------------------------
 
 
-            builder.Services.AddControllers();
-
-            // Swagger / OpenAPI
-            builder.Services.AddEndpointsApiExplorer();
 
             var app = builder.Build();
 
@@ -106,6 +126,8 @@ namespace Pets_Project_Backend
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
+
+            app.UseCors("AllowAll");
 
             app.UseHttpsRedirection();
 

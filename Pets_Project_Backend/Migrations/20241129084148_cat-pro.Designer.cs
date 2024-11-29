@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pets_Project_Backend.Context;
 
@@ -10,9 +11,11 @@ using Pets_Project_Backend.Context;
 namespace Pets_Project_Backend.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241129084148_cat-pro")]
+    partial class catpro
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,9 +69,7 @@ namespace Pets_Project_Backend.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("StockId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(50);
+                        .HasColumnType("int");
 
                     b.HasKey("ProductId");
 

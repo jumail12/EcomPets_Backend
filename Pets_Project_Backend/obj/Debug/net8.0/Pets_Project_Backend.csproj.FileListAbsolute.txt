@@ -170,3 +170,6 @@ F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\bin\Debug\net8
 F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\bin\Debug\net8.0\AutoMapper.dll
 F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\bin\Debug\net8.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\obj\Debug\net8.0\Pets_Project_Backend.sourcelink.json
+F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\bin\Debug\net8.0\CloudinaryDotNet.dll
+F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\bin\Debug\net8.0\Newtonsoft.Json.dll
