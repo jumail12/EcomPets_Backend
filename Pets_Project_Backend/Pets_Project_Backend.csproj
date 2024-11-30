@@ -21,4 +21,9 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\Models\CartModel\Cart_Dtos\" />
+    <Folder Include="Data\Models\CartModel\CartItem_Dtos\" />
+  </ItemGroup>
+
 </Project>

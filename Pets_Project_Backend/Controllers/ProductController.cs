@@ -11,10 +11,12 @@ namespace Pets_Project_Backend.Controllers
     public class ProductController : ControllerBase
     {
         private readonly IProductServices _Services;
+        private readonly ILogger<ProductController> _logger;
 
-        public ProductController(IProductServices services)
+        public ProductController(IProductServices services,ILogger<ProductController> logger)
         {
             _Services = services;
+            _logger = logger;
         }
 
         //get all
@@ -98,22 +100,45 @@ namespace Pets_Project_Backend.Controllers
         }
 
 
-        //add
+       
+
         [Authorize(Roles ="Admin")]
         [HttpPost("Add_Pro")]
-        public async Task<IActionResult> AddPro([FromForm] AddProduct_Dto new_pro ,IFormFile image)
+        public async Task<IActionResult> AddPro([FromForm] AddProduct_Dto new_pro, IFormFile image)
         {
             try
             {
+                // Validate inputs
+                if (new_pro == null || image == null)
+                {
+                    return BadRequest("Invalid product data or image file.");
+                }
 
+                // Validate file constraints
+                if (image.Length > 10485760) // 10 MB limit
+                {
+                    return BadRequest("File size exceeds the 10 MB limit.");
+                }
+
+                if (!image.ContentType.StartsWith("image/"))
+                {
+                    return BadRequest("Invalid file type. Only image files are allowed.");
+                }
+
+                // Call service to add the product
                 await _Services.AddProduct(new_pro, image);
-                return Ok("Product added Successfully!");
+                return Ok("Product added successfully!");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return StatusCode(500,ex.Message);
+                // Log the exception for debugging
+                _logger.LogError(ex, "An error occurred while adding a product.");
+
+                // Return a generic error message
+                return StatusCode(500, "An error occurred while adding the product. Please try again later.");
             }
         }
+
 
         //update
         [Authorize(Roles="Admin")]

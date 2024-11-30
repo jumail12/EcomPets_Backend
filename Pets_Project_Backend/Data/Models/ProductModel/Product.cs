@@ -1,4 +1,5 @@
-﻿using Pets_Project_Backend.Data.Models.CategoryModel;
+﻿using Pets_Project_Backend.Data.Models.CartModel;
+using Pets_Project_Backend.Data.Models.CategoryModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pets_Project_Backend.Data.Models.ProductModel
@@ -27,6 +28,7 @@ namespace Pets_Project_Backend.Data.Models.ProductModel
         public int CategoryId { get; set; }
 
         //nav
-        public virtual Category _Category { get; set; }
+        public virtual Category? _Category { get; set; }
+        public virtual ICollection<CartItem>? _CartItems {  get; set; } 
     }
 }

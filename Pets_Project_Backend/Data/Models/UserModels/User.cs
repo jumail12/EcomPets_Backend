@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Pets_Project_Backend.Data.Models.CartModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Pets_Project_Backend.Data.Models.UserModels
 {
@@ -21,6 +22,9 @@ namespace Pets_Project_Backend.Data.Models.UserModels
 
         public string? Role { get; set; }
         public bool? isBlocked { get; set; }
+
+        //nav
+        public virtual Cart? _Cart { get; set; }
 
 
         //nav properties

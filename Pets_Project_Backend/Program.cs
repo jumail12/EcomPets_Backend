@@ -9,6 +9,7 @@ using Pets_Project_Backend.Mapper;
 using Pets_Project_Backend.Services.Category_Services;
 using Pets_Project_Backend.Services.Product_Services;
 using Pets_Project_Backend.CloudinaryServices;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace Pets_Project_Backend
 {
@@ -18,7 +19,10 @@ namespace Pets_Project_Backend
         {
             var builder = WebApplication.CreateBuilder(args);
 
-
+            builder.Services.Configure<FormOptions>(options =>
+            {
+                options.MultipartBodyLengthLimit = 104857600; // 100 MB
+            });
             builder.Services.AddControllers();
 
             // Swagger / OpenAPI
@@ -69,7 +73,7 @@ namespace Pets_Project_Backend
             //----------------------------------------------------------------------------------------
             // Service registration
             builder.Services.AddScoped<IAuthServices, Auth_Services>();
-            builder.Services.AddScoped<ICategoryServices,CategoryServices>();
+            builder.Services.AddScoped<ICategoryServices, CategoryServices>();
             builder.Services.AddScoped<IProductServices, ProductService>();
             //cloudinary
             builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
@@ -100,17 +104,9 @@ namespace Pets_Project_Backend
                 };
             });
 
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("ReactPolicy", builder =>
-                {
-                    builder.AllowAnyOrigin()
-                           .AllowAnyMethod()
-                           .AllowAnyHeader();
-                });
-            });
+          
 
-           
+
 
             builder.Services.AddAuthorization();
 
@@ -127,7 +123,7 @@ namespace Pets_Project_Backend
                 app.UseSwaggerUI();
             }
 
-            app.UseCors("AllowAll");
+           
 
             app.UseHttpsRedirection();
 
