@@ -61,7 +61,7 @@ namespace Pets_Project_Backend.Controllers
                     return StatusCode(403, "User is blocked by admin!");
                 }
 
-                return Ok(new UserResponse_Dto { UserName=res.UserName,Token=res.Token,UserEmail=res.UserEmail,Role=res.Role});
+                return Ok(new UserResponse_Dto { Id=res.Id, UserName=res.UserName,Token=res.Token,UserEmail=res.UserEmail,Role=res.Role});
             }
             catch(Exception ex)
             {

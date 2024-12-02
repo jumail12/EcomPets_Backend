@@ -10,6 +10,8 @@ using Pets_Project_Backend.Services.Category_Services;
 using Pets_Project_Backend.Services.Product_Services;
 using Pets_Project_Backend.CloudinaryServices;
 using Microsoft.AspNetCore.Http.Features;
+using Pets_Project_Backend.Services.CartServices;
+using Pets_Project_Backend.CustomMiddilWare;
 
 namespace Pets_Project_Backend
 {
@@ -75,6 +77,7 @@ namespace Pets_Project_Backend
             builder.Services.AddScoped<IAuthServices, Auth_Services>();
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
             builder.Services.AddScoped<IProductServices, ProductService>();
+            builder.Services.AddScoped<ICartService, CartService>();
             //cloudinary
             builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
             //----------------------------------------------------------------------------------------
@@ -129,6 +132,7 @@ namespace Pets_Project_Backend
 
             app.UseAuthentication(); // Must be before UseAuthorization
             app.UseAuthorization();
+            app.UseMiddleware<UserIdMiddleware>();
 
             app.MapControllers();
 

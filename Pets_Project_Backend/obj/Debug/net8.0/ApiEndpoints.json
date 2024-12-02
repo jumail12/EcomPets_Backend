@@ -32,6 +32,80 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Pets_Project_Backend.Controllers.CartController",
+    "Method": "AddtoCart",
+    "RelativePath": "api/Cart/AddToCart/{pro_id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pro_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.CartController",
+    "Method": "GetAllCartItems",
+    "RelativePath": "api/Cart/cartitems",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.CartController",
+    "Method": "DCR_ProQty",
+    "RelativePath": "api/Cart/decrement product qty/{pro_id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pro_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.CartController",
+    "Method": "Remove_FromCart",
+    "RelativePath": "api/Cart/DeleteItemFromCart/{pro_id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pro_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.CartController",
+    "Method": "INR_ProQty",
+    "RelativePath": "api/Cart/increment product qty/{pro_id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pro_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Pets_Project_Backend.Controllers.CategoryController",
     "Method": "AddCate",
     "RelativePath": "api/Category/AddCategory",
