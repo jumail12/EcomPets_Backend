@@ -3,6 +3,7 @@ using Pets_Project_Backend.Data.Models.CartModel;
 using Pets_Project_Backend.Data.Models.CategoryModel;
 using Pets_Project_Backend.Data.Models.ProductModel;
 using Pets_Project_Backend.Data.Models.UserModels;
+using Pets_Project_Backend.Data.Models.WhishListModel;
 
 namespace Pets_Project_Backend.Context
 {
@@ -16,6 +17,7 @@ namespace Pets_Project_Backend.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Cart> Cart { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
+        public DbSet<WhishList> WhishList { get; set; }
 
         //model config
         protected override  void OnModelCreating(ModelBuilder modelBuilder)
@@ -68,6 +70,19 @@ namespace Pets_Project_Backend.Context
                 .HasOne(a=>a._Product)
                 .WithMany(b=>b._CartItems)
                 .HasForeignKey(c=>c.ProductId);
+
+            //user and whishlist
+            modelBuilder.Entity<WhishList>()
+                .HasOne(a=>a._User)
+                .WithMany(b=>b._WhishLists)
+                .HasForeignKey(c=>c.userId);
+
+            //wishlist with product
+            modelBuilder.Entity<WhishList>()
+                .HasOne(a=>a._Product)
+                .WithMany()  //Products does not have a navigation property to WhishList.
+                .HasForeignKey(c=>c.productId);  
+                
 
         }
 

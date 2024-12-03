@@ -60,8 +60,8 @@
   {
     "ContainingType": "Pets_Project_Backend.Controllers.CartController",
     "Method": "DCR_ProQty",
-    "RelativePath": "api/Cart/decrement product qty/{pro_id}",
-    "HttpMethod": "PUT",
+    "RelativePath": "api/Cart/decrement-product-qty/{pro_id}",
+    "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -92,8 +92,8 @@
   {
     "ContainingType": "Pets_Project_Backend.Controllers.CartController",
     "Method": "INR_ProQty",
-    "RelativePath": "api/Cart/increment product qty/{pro_id}",
-    "HttpMethod": "PUT",
+    "RelativePath": "api/Cart/increment-product-qty/{pro_id}",
+    "HttpMethod": "PATCH",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -296,6 +296,32 @@
         "IsRequired": false
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.WishListController",
+    "Method": "AddOrRemove",
+    "RelativePath": "api/WishList/AddOrRemove/{pro_id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pro_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.WishListController",
+    "Method": "GetWishList",
+    "RelativePath": "api/WishList/GetWhishList",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   }
 ]

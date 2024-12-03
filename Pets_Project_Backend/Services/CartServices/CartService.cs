@@ -103,7 +103,8 @@ namespace Pets_Project_Backend.Services.CartServices
                     CartId=user._Cart?.CartId
                 };
 
-                user._Cart?._Items.Add(newItem);
+                //user._Cart?._Items.Add(newItem);
+                _context.CartItems.Add(newItem);
                 await _context.SaveChangesAsync();
 
               return true;
@@ -151,12 +152,14 @@ namespace Pets_Project_Backend.Services.CartServices
             }
         }
 
-        public async Task<bool> IncreaseQuantity(int userId, int productId)
+        public async Task<bool> IncreaseQuantity(int userId, int pro_id)
         {
             try
             {
+               
                 var user=await _context.Users.Include(a=>a._Cart)
                     .ThenInclude(b=>b._Items)
+                    .ThenInclude(c=>c._Product)
                     .FirstOrDefaultAsync (c=>c.Id==userId);
 
                if(user == null) 
@@ -164,24 +167,24 @@ namespace Pets_Project_Backend.Services.CartServices
                     throw new ArgumentException("User not found");
                 }
 
-               var proExists=await _context.Products.FirstOrDefaultAsync(a=>a.ProductId==productId);
-                if(proExists==null)
-                {
-                    throw new ArgumentException("Product not found");
-                }
+               //var proExists=user._Cart?._Items?.FirstOrDefault(a=>a.ProductId == pro_id);
+               // if(proExists==null)
+               // {
+               //     throw new ArgumentException("Product not found");
+               // }
 
-                var item =user._Cart?._Items?.FirstOrDefault(b=>b.ProductId==productId);
+                var item =user._Cart?._Items?.FirstOrDefault(b=>b.ProductId==pro_id);
                 if (item==null)
                 {
                     throw new ArgumentException("Product not found in cart");
                 }
 
-                if (item.ProductQty <= 10)
+                if (item.ProductQty >= 10)
                 {
                     throw new ArgumentException("You reach max quantity (10)");
                 }
 
-                if(item.ProductQty >= proExists.StockId)
+                if(item.ProductQty >= item._Product?.StockId)
                 {
                     throw new ArgumentException("Out of stock!");
                 }
@@ -209,6 +212,7 @@ namespace Pets_Project_Backend.Services.CartServices
             {
                 var user =await _context.Users.Include(a=>a._Cart)
                     .ThenInclude(b=>b._Items)
+                    .ThenInclude(c=>c._Product)
                     .FirstOrDefaultAsync(c=>c.Id==userId);
 
                if(user==null)
@@ -216,7 +220,7 @@ namespace Pets_Project_Backend.Services.CartServices
                     throw new Exception("User not found");
                 }
 
-               var item =user._Cart._Items.FirstOrDefault(b=>b.ProductId==productId);
+               var item =user?._Cart?._Items?.FirstOrDefault(b=>b.ProductId==productId);
                 if (item==null)
                 {
                     return false;

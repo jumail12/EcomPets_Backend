@@ -91,11 +91,16 @@ namespace Pets_Project_Backend.Controllers
         }
 
 
-        [HttpPut("increment product qty/{pro_id}")]
+        [HttpPatch("increment-product-qty/{pro_id}")]
         public async Task<IActionResult> INR_ProQty(int pro_id)
         {
             try
             {
+                if (pro_id <= 0)
+                {
+                    return BadRequest("Invalid product ID.");
+                }
+
                 var user_id= Convert.ToInt32(HttpContext.Items["Id"]);
               var data=  await _cartService.IncreaseQuantity(user_id,pro_id);
 
@@ -106,17 +111,25 @@ namespace Pets_Project_Backend.Controllers
 
                 return BadRequest("No product found");
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
             }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An internal error occurred: " + ex.Message);
+            }
         }
 
-        [HttpPut("decrement product qty/{pro_id}")]
+        [HttpPatch("decrement-product-qty/{pro_id}")]
         public async Task<IActionResult> DCR_ProQty(int pro_id)
         {
             try
             {
+                if (pro_id <= 0)
+                {
+                    return BadRequest("Invalid product ID.");
+                }
                 var user_id = Convert.ToInt32(HttpContext.Items["Id"]);
                 var data = await _cartService.DecreaseQuantity(user_id, pro_id);
 
@@ -127,9 +140,15 @@ namespace Pets_Project_Backend.Controllers
 
                 return BadRequest("No product found");
             }
-            catch (Exception ex)
+
+            catch (ArgumentException ex)
             {
                 return BadRequest(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "An internal error occurred: " + ex.Message);
+               
             }
         }
     }
