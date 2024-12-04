@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http.Features;
 using Pets_Project_Backend.Services.CartServices;
 using Pets_Project_Backend.CustomMiddilWare;
 using Pets_Project_Backend.Services.WhishList_Service;
+using Pets_Project_Backend.Services.Order_Services;
 
 namespace Pets_Project_Backend
 {
@@ -79,7 +80,8 @@ namespace Pets_Project_Backend
             builder.Services.AddScoped<ICategoryServices, CategoryServices>();
             builder.Services.AddScoped<IProductServices, ProductService>();
             builder.Services.AddScoped<ICartService, CartService>();
-            builder.Services.AddScoped<IWhishListService, WhishListService>();  
+            builder.Services.AddScoped<IWhishListService, WhishListService>();
+            builder.Services.AddScoped<IOrderService, OrderService>();
             //cloudinary
             builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
             //----------------------------------------------------------------------------------------

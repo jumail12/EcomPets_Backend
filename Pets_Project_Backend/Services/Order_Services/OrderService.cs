@@ -1,0 +1,113 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Pets_Project_Backend.Context;
+using Pets_Project_Backend.Data.Models.OrderModel;
+using Pets_Project_Backend.Data.Models.OrderModel.Order_Dto;
+
+namespace Pets_Project_Backend.Services.Order_Services
+{
+    public class OrderService : IOrderService
+    {
+        private readonly ApplicationContext _context;
+        public OrderService(ApplicationContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<bool> CreateOrder_CheckOut(int userId, CreateOrder_Dto createOrderDto)
+        {
+            try
+            {
+                var cart =await _context.Cart
+                    .Include(b=>b._Items)
+                    .ThenInclude(c=>c._Product)
+                    .FirstOrDefaultAsync(z=>z.UserId == userId);
+
+                if (cart == null)
+                {
+                    throw new Exception("Cart is empty");
+                }
+
+                var order = new Order
+                {
+                    userId = userId,
+                    OrderDate=DateTime.Now,
+                    CustomerName= createOrderDto.CustomerName,
+                    CustomerEmail= createOrderDto.CustomerEmail,
+                    CustomerCity= createOrderDto.CustomerCity,
+                    CustomerPhone= createOrderDto.CustomerPhone,
+                    HomeAddress= createOrderDto.HomeAddress,
+                    Total= createOrderDto.Total,
+                    OrderString= createOrderDto.OrderString,
+                    TransactionId= createOrderDto.TransactionId,
+                    _Items=cart._Items.Select(a=> new OrderItem
+                    {
+                        
+                        ProductId=a._Product.ProductId,
+                        Quantity=a.ProductQty,
+                        TotalPrice=a._Product.ProductPrice*a.ProductQty
+
+                    }).ToList()
+                };
+
+                foreach (var item in cart._Items)
+                {
+                    var pro=await _context.Products.FirstOrDefaultAsync(a=>a.ProductId==item.ProductId);
+                    if(pro != null)
+                    {
+                        if (pro.StockId <= item.ProductQty)
+                        {
+                            return false;
+                        }
+
+                        pro.StockId-= item.ProductQty;
+                    }
+                }
+
+             await   _context.Order.AddAsync(order);
+                _context.Cart.Remove(cart);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message, ex);
+            }
+        }
+
+        public async Task<List<OrderView_Dto>> GetOrderDetails(int userId)
+        {
+            try
+            {
+               var orders=await _context.Order.Include(a=>a._Items)
+                    .ThenInclude(b=>b._product)
+                    .Where(c=>c.userId==userId)
+                    .ToListAsync();
+
+                var orderDetails= orders.Select(a=> new OrderView_Dto
+                {
+                    OrderId=a.OrderId,
+                    OrderDate = a.OrderDate.Value,
+                    Items =a._Items.Select(b=> new OrderItemDto
+                    {
+                        OrderItemId=b.OrderId,
+                        OrderId =b._order.OrderId,
+                        ProductId=b.ProductId,
+                        ProductImage=b._product.ImageUrl,
+                        ProductName=b._product.ProductName,
+                        Quantity=b.Quantity,
+                        TotalPrice=b.TotalPrice,
+                    }).ToList(),
+                }).ToList();
+
+                return orderDetails;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+
+    }
+}

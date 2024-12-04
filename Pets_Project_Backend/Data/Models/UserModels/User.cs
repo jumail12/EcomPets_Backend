@@ -1,4 +1,5 @@
 ﻿using Pets_Project_Backend.Data.Models.CartModel;
+using Pets_Project_Backend.Data.Models.OrderModel;
 using Pets_Project_Backend.Data.Models.WhishListModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -27,7 +28,7 @@ namespace Pets_Project_Backend.Data.Models.UserModels
         //nav
         public virtual Cart? _Cart { get; set; }
         public virtual ICollection<WhishList>? _WhishLists { get; set; }
-
+        public virtual ICollection<Order>? _Orders { get; set; }
 
         //nav properties
     }

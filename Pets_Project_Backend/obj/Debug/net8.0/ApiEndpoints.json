@@ -148,6 +148,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
+    "Method": "GetorderDetails",
+    "RelativePath": "api/Order/GetOrder-Details",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
+    "Method": "PlaceOrder",
+    "RelativePath": "api/Order/Place-order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createOrder_Dto",
+        "Type": "Pets_Project_Backend.Data.Models.OrderModel.Order_Dto.CreateOrder_Dto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Pets_Project_Backend.Controllers.ProductController",
     "Method": "AddPro",
     "RelativePath": "api/Product/Add_Pro",

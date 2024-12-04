@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pets_Project_Backend.Data.Models.CartModel;
 using Pets_Project_Backend.Data.Models.CategoryModel;
+using Pets_Project_Backend.Data.Models.OrderModel;
 using Pets_Project_Backend.Data.Models.ProductModel;
 using Pets_Project_Backend.Data.Models.UserModels;
 using Pets_Project_Backend.Data.Models.WhishListModel;
@@ -18,6 +19,8 @@ namespace Pets_Project_Backend.Context
         public DbSet<Cart> Cart { get; set; }
         public DbSet<CartItem> CartItems { get; set; }
         public DbSet<WhishList> WhishList { get; set; }
+        public DbSet<Order> Order { get; set; }
+        public DbSet<OrderItem> OrderItem { get; set; } 
 
         //model config
         protected override  void OnModelCreating(ModelBuilder modelBuilder)
@@ -82,7 +85,34 @@ namespace Pets_Project_Backend.Context
                 .HasOne(a=>a._Product)
                 .WithMany()  //Products does not have a navigation property to WhishList.
                 .HasForeignKey(c=>c.productId);  
-                
+
+            //user and order
+            modelBuilder.Entity<Order>()    
+                .HasOne(a=>a._user)
+                .WithMany(b=>b._Orders)
+                .HasForeignKey(c=>c.userId);
+
+            //order and order items
+            modelBuilder.Entity<OrderItem>()    
+                .HasOne(a=>a._order)
+                .WithMany(b=>b._Items)
+                .HasForeignKey(c=>c.OrderId);
+
+            //orderitem and product
+            modelBuilder.Entity<OrderItem>()
+                .HasOne(a=>a._product)
+                .WithMany()
+                .HasForeignKey(c=>c.ProductId);
+
+            modelBuilder.Entity<OrderItem>()
+                .Property(pr => pr.TotalPrice).
+                HasPrecision(30, 2);
+
+            modelBuilder.Entity<Order>()
+                .Property(pr => pr.Total).
+                HasPrecision(30, 2);
+
+
 
         }
 
