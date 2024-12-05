@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pets_Project_Backend.Context;
 
@@ -11,9 +12,11 @@ using Pets_Project_Backend.Context;
 namespace Pets_Project_Backend.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    partial class ApplicationContextModelSnapshot : ModelSnapshot
+    [Migration("20241205131030_List-4")]
+    partial class List4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -339,8 +342,7 @@ namespace Pets_Project_Backend.Migrations
                 {
                     b.HasOne("Pets_Project_Backend.Data.Models.ProductModel.Product", "_Product")
                         .WithMany()
-                        .HasForeignKey("productId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("productId");
 
                     b.HasOne("Pets_Project_Backend.Data.Models.UserModels.User", "_User")
                         .WithMany("_WhishLists")

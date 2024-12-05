@@ -115,7 +115,7 @@
     "Parameters": [
       {
         "Name": "newCate",
-        "Type": "Pets_Project_Backend.Data.Models.CategoryModel.CategoryDto.Category_Dto",
+        "Type": "Pets_Project_Backend.Data.Models.CategoryModel.CategoryDto.Cat_Add_dto",
         "IsRequired": true
       }
     ],

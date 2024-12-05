@@ -49,9 +49,6 @@ namespace Pets_Project_Backend.Services.Order_Services
                         _Items = new List<OrderItem>()
                     };
 
-                   
-                
-
                 var orderItem = new OrderItem
                 {
                     ProductId = pro.ProductId,

@@ -27,7 +27,7 @@ namespace Pets_Project_Backend.Services.Category_Services
 
         }
 
-        public async Task<bool> AddCategory(Category_Dto category)
+        public async Task<bool> AddCategory(Cat_Add_dto category)
         {
             var isExists = await _context.Categories.FirstOrDefaultAsync(a => a.CategoryName == category.CategoryName);
 
@@ -38,7 +38,7 @@ namespace Pets_Project_Backend.Services.Category_Services
 
             var d = new Category
             {
-                CategoryId = category.CategoryId,
+               
                 CategoryName = category.CategoryName,
             };
 
@@ -49,16 +49,27 @@ namespace Pets_Project_Backend.Services.Category_Services
 
         public async Task<bool> RemoveCategory(int id)
         {
-            var res=await _context.Categories.FirstOrDefaultAsync(a=>a.CategoryId==id);
-            if (res == null)
+            try
             {
-                return false;
+
+                var res = await _context.Categories.FirstOrDefaultAsync(a => a.CategoryId == id);
+                var pro = await _context.Products.Where(a=>a.CategoryId == id).ToListAsync();
+
+                if (res == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    _context.Products.RemoveRange(pro);
+                    _context.Categories.Remove(res);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _context.Categories.Remove(res);
-                await _context.SaveChangesAsync();
-                return true;
+                throw new Exception($"An error occurred while saving changes: {ex.InnerException?.Message ?? ex.Message}");
             }
         }
     }

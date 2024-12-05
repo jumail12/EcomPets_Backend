@@ -33,7 +33,7 @@ namespace Pets_Project_Backend.Controllers
 
         [Authorize(Roles ="Admin")]
         [HttpPost("AddCategory")]
-        public async Task<IActionResult> AddCate(Category_Dto newCate)
+        public async Task<IActionResult> AddCate(Cat_Add_dto newCate)
         {
             try
             {

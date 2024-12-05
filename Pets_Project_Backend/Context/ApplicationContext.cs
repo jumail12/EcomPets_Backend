@@ -54,7 +54,9 @@ namespace Pets_Project_Backend.Context
             modelBuilder.Entity<Product>()
                 .HasOne(a => a._Category)
                 .WithMany(b => b._Products)
-                .HasForeignKey(c => c.CategoryId);
+                .HasForeignKey(c => c.CategoryId)
+                  .OnDelete(DeleteBehavior.Cascade); 
+                
 
             //user and cart
             modelBuilder.Entity<Cart>()
@@ -72,7 +74,8 @@ namespace Pets_Project_Backend.Context
             modelBuilder.Entity<CartItem>()
                 .HasOne(a=>a._Product)
                 .WithMany(b=>b._CartItems)
-                .HasForeignKey(c=>c.ProductId);
+                .HasForeignKey(c=>c.ProductId)
+                 .OnDelete(DeleteBehavior.Cascade); 
 
             //user and whishlist
             modelBuilder.Entity<WhishList>()
@@ -84,7 +87,8 @@ namespace Pets_Project_Backend.Context
             modelBuilder.Entity<WhishList>()
                 .HasOne(a=>a._Product)
                 .WithMany()  //Products does not have a navigation property to WhishList.
-                .HasForeignKey(c=>c.productId);  
+                .HasForeignKey(c=>c.productId)
+                  .OnDelete(DeleteBehavior.Cascade);   
 
             //user and order
             modelBuilder.Entity<Order>()    
