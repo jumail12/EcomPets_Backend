@@ -149,12 +149,59 @@
   },
   {
     "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
+    "Method": "GetOrderDetailsAdmin",
+    "RelativePath": "api/Order/get-order-details-admin",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
     "Method": "GetorderDetails",
     "RelativePath": "api/Order/GetOrder-Details",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
+    "Method": "GetOrderDetailsAdmin_byuserId",
+    "RelativePath": "api/Order/GetOrderDetailsAdmin_byuserId/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
+    "Method": "individual_probuy",
+    "RelativePath": "api/Order/individual-pro-buy/{pro_id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "pro_id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "Pets_Project_Backend.Data.Models.OrderModel.Order_Dto.CreateOrder_Dto",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
@@ -171,6 +218,26 @@
         "IsRequired": true
       }
     ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
+    "Method": "TotalRevenue",
+    "RelativePath": "api/Order/Total Revenue",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
+    "Method": "TotalProductsPurchased",
+    "RelativePath": "api/Order/Total-Products-Saled",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
     "ReturnTypes": []
   },
   {

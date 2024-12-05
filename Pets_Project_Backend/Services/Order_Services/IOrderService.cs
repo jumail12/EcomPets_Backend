@@ -5,6 +5,7 @@ namespace Pets_Project_Backend.Services.Order_Services
     public interface IOrderService
     {
         Task<bool> CreateOrder_CheckOut(int userId,CreateOrder_Dto  createOrderDto);
+        Task<bool> indvidual_ProductBuy(int userId,int productId,CreateOrder_Dto order_Dto);
         Task<List<OrderView_Dto>> GetOrderDetails(int userId);
         Task<List<OrderAdminViewDto>> GetOrderDetailsAdmin();
         Task<decimal> TotalRevenue();

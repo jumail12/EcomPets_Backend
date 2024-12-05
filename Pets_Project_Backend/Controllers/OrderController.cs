@@ -16,6 +16,32 @@ namespace Pets_Project_Backend.Controllers
             _orderService = orderService;
         }
 
+
+
+
+        [Authorize]
+        [HttpPost("individual-pro-buy/{pro_id}")]
+        public async Task<IActionResult> individual_probuy(int pro_id, [FromBody]CreateOrder_Dto dto)
+        {
+            try
+            {
+                if(dto == null)
+                {
+                    return BadRequest("Order details are required.");
+                }
+
+                var user_id = Convert.ToInt32(HttpContext.Items["Id"]);
+                var res = await _orderService.indvidual_ProductBuy(user_id, pro_id, dto);
+
+                return Ok("Product purchased successfully.");
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("Place-order")]
         [Authorize]
         public async Task<IActionResult> PlaceOrder(CreateOrder_Dto createOrder_Dto)

@@ -2,6 +2,7 @@
 using Pets_Project_Backend.Context;
 using Pets_Project_Backend.Data.Models.OrderModel;
 using Pets_Project_Backend.Data.Models.OrderModel.Order_Dto;
+using Pets_Project_Backend.Data.Models.ProductModel;
 
 namespace Pets_Project_Backend.Services.Order_Services
 {
@@ -11,6 +12,67 @@ namespace Pets_Project_Backend.Services.Order_Services
         public OrderService(ApplicationContext context)
         {
             _context = context;
+        }
+
+        public async  Task<bool> indvidual_ProductBuy(int userId, int productId, CreateOrder_Dto order_Dto)
+        {
+            try
+            {
+                var pro= await _context.Products.FirstOrDefaultAsync(a=>a.ProductId==productId);
+                if (pro==null)
+                {
+                    throw new Exception("Product not found");
+                }
+
+                if (pro.StockId <= 0)
+                {
+                    throw new Exception("Product is out of stock");
+                }
+
+              var order = await _context.Order
+             .Include(a => a._Items)
+             .ThenInclude(b => b._product)
+             .FirstOrDefaultAsync(c => c.userId == userId);
+
+                    var new_order = new Order
+                    {
+                        userId = userId,
+                        OrderDate=DateTime.Now,
+                        CustomerName = order_Dto.CustomerName,
+                        CustomerEmail = order_Dto.CustomerEmail,
+                        CustomerPhone = order_Dto.CustomerPhone,
+                        Total = order_Dto.Total,
+                        CustomerCity = order_Dto.CustomerCity,
+                        HomeAddress = order_Dto.HomeAddress,
+                        OrderString = order_Dto.OrderString,
+                        TransactionId = order_Dto.TransactionId,
+                        _Items = new List<OrderItem>()
+                    };
+
+                   
+                
+
+                var orderItem = new OrderItem
+                {
+                    ProductId = pro.ProductId,
+                    Quantity=1,
+                    TotalPrice=pro.ProductPrice*1
+                };
+
+                new_order._Items?.Add(orderItem);
+                await _context.Order.AddAsync(new_order);
+
+                pro.StockId -= 1;
+                _context.Products.Update(pro);
+
+                await _context.SaveChangesAsync();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred while saving changes: {ex.InnerException?.Message ?? ex.Message}");
+            }
         }
 
         public async Task<bool> CreateOrder_CheckOut(int userId, CreateOrder_Dto createOrderDto)

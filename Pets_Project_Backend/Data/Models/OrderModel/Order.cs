@@ -30,7 +30,7 @@ namespace Pets_Project_Backend.Data.Models.OrderModel
         public string? TransactionId { get; set; }
 
         public virtual User? _user {  get; set; }
-        public virtual ICollection<OrderItem>? _Items { get; set; }
+        public virtual List<OrderItem>? _Items { get; set; }
 
     }
 }
