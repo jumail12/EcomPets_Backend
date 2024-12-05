@@ -6,5 +6,9 @@ namespace Pets_Project_Backend.Services.Order_Services
     {
         Task<bool> CreateOrder_CheckOut(int userId,CreateOrder_Dto  createOrderDto);
         Task<List<OrderView_Dto>> GetOrderDetails(int userId);
+        Task<List<OrderAdminViewDto>> GetOrderDetailsAdmin();
+        Task<decimal> TotalRevenue();
+        Task<int> TotalProductsPurchased();
+       Task<List<OrderView_Dto>> GetOrderDetailsAdmin_byuserId(int userId);
     }
 }

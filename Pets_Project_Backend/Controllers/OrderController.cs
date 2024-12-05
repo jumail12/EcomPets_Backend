@@ -46,5 +46,67 @@ namespace Pets_Project_Backend.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpGet("get-order-details-admin")]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> GetOrderDetailsAdmin()
+        {
+            try
+            {
+                return Ok(await _orderService.GetOrderDetailsAdmin());  
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet("Total Revenue")]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> TotalRevenue()
+        {
+            try
+            {
+                return Ok(await _orderService.TotalRevenue());
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("Total-Products-Saled")]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> TotalProductsPurchased()
+        {
+            try
+            {
+                return Ok (await _orderService.TotalProductsPurchased());   
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("GetOrderDetailsAdmin_byuserId/{id}")]
+        [Authorize(Roles ="Admin")]
+        public async Task<IActionResult> GetOrderDetailsAdmin_byuserId(int id)
+        {
+            try
+            {
+                var orderDetails = await _orderService.GetOrderDetailsAdmin_byuserId(id);
+                if(orderDetails == null)
+                {
+                    return NotFound("User not found");
+                }
+                return Ok(orderDetails);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }
