@@ -1,5 +1,31 @@
 [
   {
+    "ContainingType": "Pets_Project_Backend.Controllers.AddressController",
+    "Method": "Add_newAdd",
+    "RelativePath": "api/Address/Add-new-Address",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "_dto",
+        "Type": "Pets_Project_Backend.Data.Models.AddressModel.Address_Dtos.AddNewAddress_dto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.AddressController",
+    "Method": "GetAddresses",
+    "RelativePath": "api/Address/GetAddresses",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Pets_Project_Backend.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/Login",

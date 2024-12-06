@@ -14,6 +14,7 @@ using Pets_Project_Backend.Services.CartServices;
 using Pets_Project_Backend.CustomMiddilWare;
 using Pets_Project_Backend.Services.WhishList_Service;
 using Pets_Project_Backend.Services.Order_Services;
+using Pets_Project_Backend.Services.AddressServices;
 
 namespace Pets_Project_Backend
 {
@@ -82,6 +83,7 @@ namespace Pets_Project_Backend
             builder.Services.AddScoped<ICartService, CartService>();
             builder.Services.AddScoped<IWhishListService, WhishListService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
+            builder.Services.AddScoped<IAddressService, AddressService>();
             //cloudinary
             builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
             //----------------------------------------------------------------------------------------
@@ -136,6 +138,7 @@ namespace Pets_Project_Backend
 
             app.UseAuthentication(); // Must be before UseAuthorization
             app.UseAuthorization();
+
             app.UseMiddleware<UserIdMiddleware>();
 
             app.MapControllers();

@@ -38,12 +38,8 @@ namespace Pets_Project_Backend.Services.Order_Services
                     {
                         userId = userId,
                         OrderDate=DateTime.Now,
-                        CustomerName = order_Dto.CustomerName,
-                        CustomerEmail = order_Dto.CustomerEmail,
-                        CustomerPhone = order_Dto.CustomerPhone,
+                        AddressId=order_Dto.AddId,
                         Total = order_Dto.Total,
-                        CustomerCity = order_Dto.CustomerCity,
-                        HomeAddress = order_Dto.HomeAddress,
                         OrderString = order_Dto.OrderString,
                         TransactionId = order_Dto.TransactionId,
                         _Items = new List<OrderItem>()
@@ -90,11 +86,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                 {
                     userId = userId,
                     OrderDate=DateTime.Now,
-                    CustomerName= createOrderDto.CustomerName,
-                    CustomerEmail= createOrderDto.CustomerEmail,
-                    CustomerCity= createOrderDto.CustomerCity,
-                    CustomerPhone= createOrderDto.CustomerPhone,
-                    HomeAddress= createOrderDto.HomeAddress,
+                    AddressId=createOrderDto.AddId,
                     Total= createOrderDto.Total,
                     OrderString= createOrderDto.OrderString,
                     TransactionId= createOrderDto.TransactionId,
@@ -170,7 +162,9 @@ namespace Pets_Project_Backend.Services.Order_Services
         {
             try
             {
-                var orders=  await _context.Order.Include(a=>a._Items).ToListAsync();
+                var orders=  await _context.Order
+                    .Include(z=>z._UserAd)
+                    .Include(a=>a._Items).ToListAsync();
                 if (orders.Count > 0)
                 {
                     var details = orders.Select(a => new OrderAdminViewDto
@@ -179,9 +173,10 @@ namespace Pets_Project_Backend.Services.Order_Services
                         OrderDate = a.OrderDate.Value,
                         OrderString = a.OrderString,
                         TransactionId = a.TransactionId,
-                        CustomerEmail = a.CustomerEmail,
-                        CustomerName = a.CustomerName,
-                        CustomerPhone = a.CustomerPhone,
+                        UserName=a._UserAd.CustomerName,
+                        Phone=a._UserAd.CustomerPhone,
+                        UserAddress=a._UserAd.HomeAddress,
+
 
                     }).ToList();
 

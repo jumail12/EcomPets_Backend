@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Pets_Project_Backend.Data.Models.AddressModel;
 using Pets_Project_Backend.Data.Models.CartModel;
 using Pets_Project_Backend.Data.Models.CategoryModel;
 using Pets_Project_Backend.Data.Models.OrderModel;
@@ -21,6 +22,8 @@ namespace Pets_Project_Backend.Context
         public DbSet<WhishList> WhishList { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderItem> OrderItem { get; set; } 
+
+        public DbSet<UserAddress> UserAddress { get; set; }
 
         //model config
         protected override  void OnModelCreating(ModelBuilder modelBuilder)
@@ -115,6 +118,22 @@ namespace Pets_Project_Backend.Context
             modelBuilder.Entity<Order>()
                 .Property(pr => pr.Total).
                 HasPrecision(30, 2);
+
+            //address and user
+            modelBuilder.Entity<UserAddress>()
+                .HasOne(a => a._userAd)
+                .WithMany(b => b._UserAddresses)
+                .HasForeignKey(c => c.userId);
+
+            //address and order
+            modelBuilder.Entity<Order>()
+                .HasOne(a => a._UserAd)
+                .WithMany(b=>b._orders)
+                .HasForeignKey(c=>c.AddressId);
+
+            modelBuilder.Entity<Order>()
+                .Property(pr => pr.OrderStatus)
+                .HasDefaultValue("OderPlaced");
 
 
 

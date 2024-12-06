@@ -1,4 +1,5 @@
-﻿using Pets_Project_Backend.Data.Models.UserModels;
+﻿using Pets_Project_Backend.Data.Models.AddressModel;
+using Pets_Project_Backend.Data.Models.UserModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pets_Project_Backend.Data.Models.OrderModel
@@ -9,18 +10,12 @@ namespace Pets_Project_Backend.Data.Models.OrderModel
         public int OrderId { get; set; }
         [Required]
         public int userId { get; set; }
+        public int? AddressId { get; set; }
         [Required]
         public DateTime? OrderDate { get; set; }
-        [Required]
-        public string? CustomerName { get; set; }
-        [Required]
-        public string? CustomerEmail { get; set; }
-        [Required]
-        public string? CustomerPhone { get; set; }
-        [Required]
-        public string? CustomerCity { get; set; }
-        [Required]
-        public string? HomeAddress { get; set; }
+
+        public string? OrderStatus {  get; set; }
+
         [Required]
         public decimal? Total { get; set; }
         [Required]
@@ -28,6 +23,8 @@ namespace Pets_Project_Backend.Data.Models.OrderModel
    
         [Required]
         public string? TransactionId { get; set; }
+
+        public virtual UserAddress? _UserAd {  get; set; }
 
         public virtual User? _user {  get; set; }
         public virtual List<OrderItem>? _Items { get; set; }
