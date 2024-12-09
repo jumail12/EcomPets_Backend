@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Pets_Project_Backend.ApiResponse;
 using Pets_Project_Backend.Data.Models.ProductModel.Product_Dto;
 using Pets_Project_Backend.Services.Product_Services;
 
@@ -26,7 +27,7 @@ namespace Pets_Project_Backend.Controllers
             try
             {
                 var products=await _Services.GetProducts();
-                return Ok(products);
+                return Ok(new ApiResponse<IEnumerable<Product_with_Category_Dto>>(true, "Products fetched ", products, null));
             }
             catch (Exception ex)
             {
@@ -41,7 +42,13 @@ namespace Pets_Project_Backend.Controllers
             try
             {
                 var p=await _Services.GetProductByID(id);
-                return Ok(p);
+
+                if (p == null)
+                {
+                    return Ok(new ApiResponse<string>(false, "Product not found"," ",null));
+                }
+                    return Ok(new ApiResponse<Product_with_Category_Dto>(false, "Product  found",p,null));
+
             }
             catch (Exception ex)
             {
@@ -56,9 +63,14 @@ namespace Pets_Project_Backend.Controllers
             try
             {
                 var p=await _Services.GetProductsByCategoryName(CatName);
-                return Ok(p);
+                if (p == null)
+                {
+                    return Ok(new ApiResponse<string>(false, "No products in this category", " ",null));
+                }
+                    return Ok(new ApiResponse<IEnumerable<Product_with_Category_Dto>>(true, " products in this category",p,null));
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -74,9 +86,11 @@ namespace Pets_Project_Backend.Controllers
                 bool res=await _Services.DeleteProduct(id);
                 if (res)
                 {
-                    return Ok("Product deleted");
+                    return Ok(new ApiResponse<string>(true, "Product deleted",null,null));
                 }
-                return NotFound("Product Not found");
+               
+                return NotFound(new ApiResponse<string>(false, "Product Not found", null, null));
+
             }
             catch (Exception ex)
             {
@@ -91,9 +105,15 @@ namespace Pets_Project_Backend.Controllers
             try
             {
                 var res= await _Services.SearchProduct(search);
-                return Ok(res);
+                if (res == null)
+                {
+                    return NotFound(new ApiResponse<string>(true, "no products matched", null, null));
+
+                }
+                return Ok(new ApiResponse<IEnumerable<Product_with_Category_Dto>>(true, " products are match with..",res,null));
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -127,7 +147,7 @@ namespace Pets_Project_Backend.Controllers
 
                 // Call service to add the product
                 await _Services.AddProduct(new_pro, image);
-                return Ok("Product added successfully!");
+                return Ok(new ApiResponse<string>(true, "Product added successfully!",null,null));
             }
             catch (Exception ex)
             {
@@ -148,7 +168,7 @@ namespace Pets_Project_Backend.Controllers
             try
             {
                 await _Services.UpdatePro(id, updateProduct_Dto, image);
-                return Ok("product updated");
+                return Ok(new ApiResponse<string>(true, "product updated",null,null));
             }
             catch(Exception ex)
             {

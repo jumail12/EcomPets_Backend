@@ -3,6 +3,7 @@ using Pets_Project_Backend.Data.Models.CartModel;
 using Pets_Project_Backend.Data.Models.OrderModel;
 using Pets_Project_Backend.Data.Models.WhishListModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Pets_Project_Backend.Data.Models.UserModels
 {
@@ -27,6 +28,7 @@ namespace Pets_Project_Backend.Data.Models.UserModels
         public bool? isBlocked { get; set; }
 
         //nav
+        [JsonIgnore]
         public virtual Cart? _Cart { get; set; }
         public virtual ICollection<WhishList>? _WhishLists { get; set; }
         public virtual ICollection<Order>? _Orders { get; set; }

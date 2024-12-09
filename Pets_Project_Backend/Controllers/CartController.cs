@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Pets_Project_Backend.ApiResponse;
+using Pets_Project_Backend.Data.Models.CartModel;
+using Pets_Project_Backend.Data.Models.CartModel.Cart_Dtos;
 using Pets_Project_Backend.Services.CartServices;
 using System.Security.Claims;
 
@@ -26,21 +29,18 @@ namespace Pets_Project_Backend.Controllers
                 var userid=User.Claims.FirstOrDefault(x=>x.Type==ClaimTypes.NameIdentifier).Value;
                 var items = await _cartService.GetAllCartItems(int.Parse(userid));
 
-                if (items == null)
-                {
-                    return NotFound("no user");
-                }
+              
 
                 if(items.Count == 0)
                 {
-                    return BadRequest("no item in cart");
+                    return Ok(new ApiResponse<IEnumerable<CartView_Dto>>(false,"Cart is Empty",null,"Add some Products"));
                 }
 
-                return Ok(items);
+                return Ok(new ApiResponse<IEnumerable<CartView_Dto>>(true, "Cart successfully fetched",items,null));
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, new ApiResponse<IEnumerable<CartView_Dto>>(false, ex.Message, null, ex.Message));
             }
         }
 
@@ -53,13 +53,13 @@ namespace Pets_Project_Backend.Controllers
                 var user_id = Convert.ToInt32(HttpContext.Items["Id"]);
                 var res=await _cartService.AddToCart(user_id, pro_id);
 
-                if (res)
-                {
-                    return Ok("Product added to the cart");
-                }
 
-                return BadRequest("Item already in your cart!");
+                //return Ok("Product added to the cart");
+                //return Ok(res);
                
+                
+                    return Ok(new ApiResponse<CartItem>(true,res.Message,res.Data,res.Error));
+  
             }
             catch (Exception ex)
             {
@@ -75,12 +75,9 @@ namespace Pets_Project_Backend.Controllers
                 var user_id = Convert.ToInt32(HttpContext.Items["Id"]);
                var data = await _cartService.RemoveFromCart(user_id,pro_id);
 
-                if(data)
-                {
-                    return Ok("Item removed from cart");
-                }
+               return Ok(data);
 
-                return NotFound("No product found");
+               
 
 
             }
@@ -104,12 +101,11 @@ namespace Pets_Project_Backend.Controllers
                 var user_id= Convert.ToInt32(HttpContext.Items["Id"]);
               var data=  await _cartService.IncreaseQuantity(user_id,pro_id);
 
-                if (data)
-                {
-                    return Ok("Qunatity icreased");
-                }
+              
+                    return Ok(data);
+             
 
-                return BadRequest("No product found");
+              
             }
             catch (ArgumentException ex)
             {
@@ -132,13 +128,7 @@ namespace Pets_Project_Backend.Controllers
                 }
                 var user_id = Convert.ToInt32(HttpContext.Items["Id"]);
                 var data = await _cartService.DecreaseQuantity(user_id, pro_id);
-
-                if (data)
-                {
-                    return Ok("Qunatity decreased");
-                }
-
-                return BadRequest("No product found");
+                    return Ok(data);
             }
 
             catch (ArgumentException ex)

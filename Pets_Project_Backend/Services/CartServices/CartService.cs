@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Pets_Project_Backend.ApiResponse;
 using Pets_Project_Backend.Context;
 using Pets_Project_Backend.Data.Models.CartModel;
 using Pets_Project_Backend.Data.Models.CartModel.Cart_Dtos;
@@ -50,7 +51,7 @@ namespace Pets_Project_Backend.Services.CartServices
         }
 
 
-        public async Task<bool> AddToCart(int userId, int productId)
+        public async Task<ApiResponse<CartItem>> AddToCart(int userId, int productId)
         {
             try
             {
@@ -62,7 +63,8 @@ namespace Pets_Project_Backend.Services.CartServices
                 //user verification
                 if(user == null)
                 {
-                    throw new ArgumentException("User not found!");
+                    //throw new ArgumentException("User not found!");
+                    return new ApiResponse<CartItem>(false, "User not found!",null,"Check dtails");
                 }
 
                 //cart existb or not
@@ -83,18 +85,22 @@ namespace Pets_Project_Backend.Services.CartServices
                 var check=user._Cart?._Items?.FirstOrDefault(a=>a.ProductId==productId);
                 if(check != null)
                 {
-                    throw new ArgumentException("Item alredy in your cart!");
-                   
+                    //throw new ArgumentException("Item alredy in your cart!");
+                    return new ApiResponse<CartItem>(false, "Item alredy in your cart!", null, "Check dtails");
+
+
                 }
 
                 //chechking he sock of product
                 var pro=await _context.Products.FirstOrDefaultAsync(a=>a.ProductId==productId);
                 if (pro == null || pro?.StockId <= 0)
                 {
-                    throw new ArgumentException("Product not found or out of stock.");
-                   
+                    //throw new ArgumentException("Product not found or out of stock.");
+                    return new ApiResponse<CartItem>(false, "Product not found or out of stock.", null, "Check dtails");
+
+
                 }
-               
+
 
                 //add net cart item
                 var newItem = new CartItem
@@ -107,22 +113,22 @@ namespace Pets_Project_Backend.Services.CartServices
                 _context.CartItems.Add(newItem);
                 await _context.SaveChangesAsync();
 
-              return true;
+                return new ApiResponse<CartItem>(true, "Successfully added to the cart", newItem, null);
+               
             }
 
 
-            catch (ArgumentException)
-            {
-                throw; // Rethrow specific exceptions.
-            }
+        
             catch (Exception ex)
             {
+
+                //throw new ApiResponse<CartItem>(false, "Internal server error",null, ex.Message);
                 throw new Exception(ex.Message);
             }
         }
 
         //remove from cat
-        public async Task<bool> RemoveFromCart(int userId, int productId)
+        public async Task<ApiResponse<string>> RemoveFromCart(int userId, int productId)
         {
             try
             {
@@ -132,27 +138,29 @@ namespace Pets_Project_Backend.Services.CartServices
 
                 if(user == null)
                 {
-                    return false;
+                    return new ApiResponse<string>(false, "User not found", null, "verify details");
                 }
 
                 var pro_check= user._Cart?._Items?.FirstOrDefault(a=>a.ProductId==productId);
                 if(pro_check == null)
                 {
-                    return false;
+                    return new ApiResponse<string>(false, "Product not found in Cart", null, "Check your items");
+
                 }
 
-               _context.CartItems.Remove(pro_check);
+                _context.CartItems.Remove(pro_check);
                 await _context.SaveChangesAsync();
-                return true;
+                    return new ApiResponse<string>(true, "Product removed from  Cart","" , null);
+
             }
-           
-            catch(Exception ex)
+
+            catch (Exception ex)
             {
                 throw new InvalidOperationException("An error occurred while removing the item from the cart.", ex);
             }
         }
 
-        public async Task<bool> IncreaseQuantity(int userId, int pro_id)
+        public async Task<ApiResponse<CartItem>> IncreaseQuantity(int userId, int pro_id)
         {
             try
             {
@@ -164,7 +172,7 @@ namespace Pets_Project_Backend.Services.CartServices
 
                if(user == null) 
                 {
-                    throw new ArgumentException("User not found");
+                    return new ApiResponse<CartItem>(false, "user not found", null, "Check the informations");
                 }
 
                //var proExists=user._Cart?._Items?.FirstOrDefault(a=>a.ProductId == pro_id);
@@ -176,22 +184,28 @@ namespace Pets_Project_Backend.Services.CartServices
                 var item =user._Cart?._Items?.FirstOrDefault(b=>b.ProductId==pro_id);
                 if (item==null)
                 {
-                    throw new ArgumentException("Product not found in cart");
+                    //throw new ArgumentException("Product not found in cart");
+                    return new ApiResponse<CartItem>(false, "Product not found in cart", null, "Check the informations");
+
                 }
 
                 if (item.ProductQty >= 10)
                 {
-                    throw new ArgumentException("You reach max quantity (10)");
+                    //throw new ArgumentException("You reach max quantity (10)");
+                    return new ApiResponse<CartItem>(false, "You reach max quantity (10)", null, "Check the informations");
+
                 }
 
-                if(item.ProductQty >= item._Product?.StockId)
+                if (item.ProductQty >= item._Product?.StockId)
                 {
-                    throw new ArgumentException("Out of stock!");
+                    //throw new ArgumentException("Out of stock!");
+                    return new ApiResponse<CartItem>(false, "Out of stock", null, "Check the informations");
+
                 }
 
                 item.ProductQty++;
                 await _context.SaveChangesAsync();
-                return true;
+                return new ApiResponse<CartItem>(true, "Quantity increased", item, null);
             }
             catch (ArgumentException ex)
             {
@@ -206,7 +220,7 @@ namespace Pets_Project_Backend.Services.CartServices
 
 
         //decrease qty
-        public async Task<bool> DecreaseQuantity(int userId, int productId)
+        public async Task<ApiResponse<CartItem>> DecreaseQuantity(int userId, int productId)
         {
             try
             {
@@ -223,7 +237,8 @@ namespace Pets_Project_Backend.Services.CartServices
                var item =user?._Cart?._Items?.FirstOrDefault(b=>b.ProductId==productId);
                 if (item==null)
                 {
-                    return false;
+                    return new ApiResponse<CartItem>(false, "Product not found", null, "Check the informations");
+
                 }
 
                 if (item.ProductQty > 1)
@@ -236,7 +251,8 @@ namespace Pets_Project_Backend.Services.CartServices
                 }
 
                 await _context.SaveChangesAsync();
-                return true;
+                    return new ApiResponse<CartItem>(true, "Quantity decresed", item, "");
+
             }
             catch (ArgumentException ex)
             {

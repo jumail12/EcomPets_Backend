@@ -1,6 +1,7 @@
 ﻿using Pets_Project_Backend.Data.Models.CartModel;
 using Pets_Project_Backend.Data.Models.CategoryModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Pets_Project_Backend.Data.Models.ProductModel
 {
@@ -29,6 +30,7 @@ namespace Pets_Project_Backend.Data.Models.ProductModel
 
         //nav
         public virtual Category? _Category { get; set; }
+        [JsonIgnore]
         public virtual ICollection<CartItem>? _CartItems {  get; set; } 
     }
 }

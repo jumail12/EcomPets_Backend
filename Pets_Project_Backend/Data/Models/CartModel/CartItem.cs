@@ -1,4 +1,5 @@
 ﻿using Pets_Project_Backend.Data.Models.ProductModel;
+using System.Text.Json.Serialization;
 
 namespace Pets_Project_Backend.Data.Models.CartModel
 {
@@ -10,7 +11,9 @@ namespace Pets_Project_Backend.Data.Models.CartModel
         public int? ProductQty { get; set; }
 
         //nav
+        [JsonIgnore]
         public virtual Cart? _Cart{ get; set; }
+        [JsonIgnore]
         public virtual Product? _Product { get; set; }
     }
 }

@@ -83,6 +83,11 @@ namespace Pets_Project_Backend.Services.Product_Services
                     CategoryName = a._Category.CategoryName
                 }).FirstOrDefaultAsync(b => b.ProductId == id);
 
+                if(pro == null)
+                {
+                    return null;
+                }
+
                 return pro;
             }
             catch (Exception ex)
@@ -107,6 +112,12 @@ namespace Pets_Project_Backend.Services.Product_Services
                         StockId = a.StockId,
                         CategoryName = a._Category.CategoryName
                     }).ToListAsync();
+
+                    if (allpro == null)
+                    {
+                        return null;
+                    }
+
                     return allpro;
                 }
 
@@ -122,6 +133,10 @@ namespace Pets_Project_Backend.Services.Product_Services
                         StockId = a.StockId,
                         CategoryName = a._Category.CategoryName
                     }).ToListAsync();
+                if (catP1 == null)
+                {
+                    return null;
+                }
 
                 return catP1;
 

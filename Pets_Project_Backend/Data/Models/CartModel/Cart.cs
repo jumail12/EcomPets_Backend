@@ -1,5 +1,6 @@
 ﻿using Pets_Project_Backend.Data.Models.ProductModel;
 using Pets_Project_Backend.Data.Models.UserModels;
+using System.Text.Json.Serialization;
 
 namespace Pets_Project_Backend.Data.Models.CartModel
 {
@@ -9,7 +10,9 @@ namespace Pets_Project_Backend.Data.Models.CartModel
         public int UserId { get; set; }
 
         //nav
-        public virtual ICollection<CartItem> _Items { get; set; }
-        public virtual User _User { get; set; }
+        [JsonIgnore]
+        public virtual ICollection<CartItem>? _Items { get; set; }
+        [JsonIgnore]
+        public virtual User? _User { get; set; }
     }
 }

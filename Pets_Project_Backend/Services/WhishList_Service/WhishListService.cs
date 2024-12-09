@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Pets_Project_Backend.ApiResponse;
 using Pets_Project_Backend.Context;
 using Pets_Project_Backend.Data.Models.WhishListModel;
 using Pets_Project_Backend.Data.Models.WhishListModel.WhishList_Dto;
@@ -14,7 +15,7 @@ namespace Pets_Project_Backend.Services.WhishList_Service
             _context = context;
         }
 
-        public async Task<string> AddOrRemove(int u_id, int pro_id)
+        public async Task<ApiResponse<string>> AddOrRemove(int u_id, int pro_id)
         {
             try
             {
@@ -32,13 +33,14 @@ namespace Pets_Project_Backend.Services.WhishList_Service
 
                     _context.WhishList.Add(add_wish);
                     await _context.SaveChangesAsync();
-                    return "Item added to the wishList";
+                    return new ApiResponse<string>(true, "Item added to the wishList","done",null);
                 }
                 else
                 {
                     _context.WhishList.Remove(isExists);
                     await _context.SaveChangesAsync();
-                    return "Item removed from wishList";
+                   
+                    return new ApiResponse<string>(true, "Item removed from wishList", "done", null);
                 }
             }
             catch(Exception ex)

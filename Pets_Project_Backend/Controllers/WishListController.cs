@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Pets_Project_Backend.ApiResponse;
+using Pets_Project_Backend.Data.Models.WhishListModel;
+using Pets_Project_Backend.Data.Models.WhishListModel.WhishList_Dto;
 using Pets_Project_Backend.Services.WhishList_Service;
 
 namespace Pets_Project_Backend.Controllers
@@ -24,7 +27,14 @@ namespace Pets_Project_Backend.Controllers
                 int u_id = Convert.ToInt32(HttpContext.Items["Id"]);
                 var res= await _service.GetAllWishItems(u_id);
 
-                return Ok(res);
+                //return Ok(res);
+                if(res.Count>0)
+                {
+                    return Ok(new ApiResponse<IEnumerable<WhishList_View_Dto>>(true,"whislist fetched",res,null));
+                }
+
+                return Ok(new ApiResponse<IEnumerable<WhishList_View_Dto>>(true, "no items in whislist ", res, null));
+
             }
             catch (Exception ex)
             {
@@ -39,7 +49,7 @@ namespace Pets_Project_Backend.Controllers
             try
             {
                 int u_id = Convert.ToInt32(HttpContext.Items["Id"]);
-                string res=await _service.AddOrRemove(u_id, pro_id);
+                var res = await _service.AddOrRemove(u_id, pro_id);
 
                 return Ok(res);
 
