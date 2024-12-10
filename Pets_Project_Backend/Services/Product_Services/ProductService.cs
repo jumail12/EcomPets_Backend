@@ -28,6 +28,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                     ProductName=addPro.ProductName,
                     ProductDescription=addPro.ProductDescription,
                     ProductPrice=addPro.ProductPrice,
+                    OfferPrize=addPro.OfferPrize,
                     CategoryId=addPro.CategoryId,
                     ImageUrl=imageUrl,
                 };
@@ -52,6 +53,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                     ProductName = a.ProductName,
                     ProductDescription = a.ProductDescription,
                     ProductPrice = a.ProductPrice,
+                    OfferPrize = a.OfferPrize,
                     ImageUrl = a.ImageUrl,
                     StockId = a.StockId,
                     CategoryName=a._Category.CategoryName
@@ -78,6 +80,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                     ProductName = a.ProductName,
                     ProductDescription = a.ProductDescription,
                     ProductPrice = a.ProductPrice,
+                    OfferPrize=a.OfferPrize,
                     ImageUrl = a.ImageUrl,
                     StockId = a.StockId,
                     CategoryName = a._Category.CategoryName
@@ -100,7 +103,7 @@ namespace Pets_Project_Backend.Services.Product_Services
         {
             try
             {
-                if (Cat_name == "All")
+                if (Cat_name.ToLower() == "all")
                 {
                     var allpro = await _context.Products.Select(a => new Product_with_Category_Dto
                     {
@@ -108,6 +111,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                         ProductName = a.ProductName,
                         ProductDescription = a.ProductDescription,
                         ProductPrice = a.ProductPrice,
+                        OfferPrize=a.OfferPrize,
                         ImageUrl = a.ImageUrl,
                         StockId = a.StockId,
                         CategoryName = a._Category.CategoryName
@@ -129,6 +133,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                         ProductName = a.ProductName,
                         ProductDescription = a.ProductDescription,
                         ProductPrice = a.ProductPrice,
+                        OfferPrize=a.OfferPrize,
                         ImageUrl = a.ImageUrl,
                         StockId = a.StockId,
                         CategoryName = a._Category.CategoryName
@@ -183,6 +188,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                     pro.ProductName = addPro.ProductName;
                     pro.ProductDescription = addPro.ProductDescription;
                     pro.ProductPrice = addPro.ProductPrice; 
+                    pro.OfferPrize = addPro.OfferPrize;
                     pro.CategoryId = addPro.CategoryId;
                     
                     if(image != null && image.Length>0)
@@ -221,6 +227,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                         ProductName=b.ProductName,
                         ProductDescription=b.ProductDescription,
                         ProductPrice=b.ProductPrice,
+                        OfferPrize=b.OfferPrize,
                         ImageUrl=b.ImageUrl,
                         StockId=b.StockId,
                         CategoryName=b._Category.CategoryName

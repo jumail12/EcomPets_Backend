@@ -12,8 +12,10 @@ namespace Pets_Project_Backend.Data.Models.ProductModel.Product_Dto
 
         [Required]
         public decimal? ProductPrice { get; set; }
+        [Required]
+        public decimal? OfferPrize { get; set; }
 
-      
+
 
         [Required]
         public int CategoryId { get; set; }

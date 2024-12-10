@@ -42,9 +42,9 @@ namespace Pets_Project_Backend.Services.CartServices
                 {
                     ProductId = item._Product.ProductId,
                     ProductName = item._Product.ProductName,
-                    Price = (int?)item._Product.ProductPrice,
+                    Price = (int?)item._Product.OfferPrize,
                     ProductImage = item._Product.ImageUrl,
-                    TotalAmount = (int?)(item._Product.ProductPrice * item.ProductQty),
+                    TotalAmount = (int?)(item._Product.OfferPrize * item.ProductQty),
                     Quantity = item.ProductQty
                 })
                 .ToList();

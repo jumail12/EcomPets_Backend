@@ -19,6 +19,9 @@ namespace Pets_Project_Backend.Data.Models.ProductModel
         public decimal? ProductPrice { get; set; }
 
         [Required]
+        public decimal? OfferPrize { get; set; }
+
+        [Required]
         [Url]
         public string? ImageUrl { get; set; }
 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Pets_Project_Backend.ApiResponse;
 using Pets_Project_Backend.Data.Models.OrderModel.Order_Dto;
 using Pets_Project_Backend.Services.Order_Services;
 
@@ -33,7 +34,8 @@ namespace Pets_Project_Backend.Controllers
                 var user_id = Convert.ToInt32(HttpContext.Items["Id"]);
                 var res = await _orderService.indvidual_ProductBuy(user_id, pro_id, dto);
 
-                return Ok("Product purchased successfully.");
+                //return Ok("Product purchased successfully.");
+                return Ok(new ApiResponse<string>(true, "Product purchased successfully.", null, null));
                 
             }
             catch (Exception ex)
@@ -50,7 +52,9 @@ namespace Pets_Project_Backend.Controllers
             {
                 var user_id = Convert.ToInt32(HttpContext.Items["Id"]);
                 var res=await _orderService.CreateOrder_CheckOut(user_id, createOrder_Dto);
-                return Ok(res + "Order placed");
+                //return Ok(res + "Order placed");
+                return Ok(new ApiResponse<string>(true, " successfully.", null, null));
+
             }
             catch (Exception ex)
             {
@@ -65,6 +69,8 @@ namespace Pets_Project_Backend.Controllers
             {
                 var u_id=Convert.ToInt32(HttpContext.Items["Id"]);
                 var res=await _orderService.GetOrderDetails(u_id);
+                return Ok(new ApiResponse<IEnumerable<OrderView_Dto>>(true, " successfully.", res, null));
+
                 return Ok(res);
             }
             catch (Exception ex)
@@ -79,7 +85,14 @@ namespace Pets_Project_Backend.Controllers
         {
             try
             {
-                return Ok(await _orderService.GetOrderDetailsAdmin());  
+                var res= await _orderService.GetOrderDetailsAdmin();
+                if (res.Count < 0)
+                {
+                    return BadRequest(new ApiResponse<string>(false, "no order found", null, null));
+                }
+
+                return Ok(new ApiResponse<IEnumerable<OrderAdminViewDto>>(true, " successfully.", res, null));
+
             }
             catch (Exception ex)
             {
@@ -94,7 +107,9 @@ namespace Pets_Project_Backend.Controllers
         {
             try
             {
-                return Ok(await _orderService.TotalRevenue());
+               var res= await _orderService.TotalRevenue();
+                return Ok(new ApiResponse<decimal>(true, " successfully.",res , null));
+
             }
             catch (Exception ex)
             {
@@ -108,7 +123,9 @@ namespace Pets_Project_Backend.Controllers
         {
             try
             {
-                return Ok (await _orderService.TotalProductsPurchased());   
+                var res= await _orderService.TotalProductsPurchased();
+                return Ok(new ApiResponse<int>(true, " successfully.",res , null));
+
             }
             catch (Exception ex)
             {
@@ -127,7 +144,8 @@ namespace Pets_Project_Backend.Controllers
                 {
                     return NotFound("User not found");
                 }
-                return Ok(orderDetails);
+               
+                return Ok(new ApiResponse<IEnumerable<OrderView_Dto>>(true,"done",orderDetails,null));
             }
             catch(Exception ex)
             {

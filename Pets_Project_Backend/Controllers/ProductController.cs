@@ -47,7 +47,7 @@ namespace Pets_Project_Backend.Controllers
                 {
                     return Ok(new ApiResponse<string>(false, "Product not found"," ",null));
                 }
-                    return Ok(new ApiResponse<Product_with_Category_Dto>(false, "Product  found",p,null));
+                    return Ok(new ApiResponse<Product_with_Category_Dto>(true, "Product  found",p,null));
 
             }
             catch (Exception ex)

@@ -49,7 +49,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                 {
                     ProductId = pro.ProductId,
                     Quantity=1,
-                    TotalPrice=pro.ProductPrice*1
+                    TotalPrice=pro.OfferPrize*1
                 };
 
                 new_order._Items?.Add(orderItem);
@@ -95,7 +95,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                         
                         ProductId=a._Product.ProductId,
                         Quantity=a.ProductQty,
-                        TotalPrice=a._Product.ProductPrice*a.ProductQty
+                        TotalPrice=a._Product.OfferPrize*a.ProductQty
 
                     }).ToList()
                 };
