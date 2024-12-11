@@ -428,6 +428,48 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Pets_Project_Backend.Controllers.UserController",
+    "Method": "block_unb",
+    "RelativePath": "api/User/block/unblock{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.UserController",
+    "Method": "getUsers",
+    "RelativePath": "api/User/gett-all-users",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.UserController",
+    "Method": "userByid",
+    "RelativePath": "api/User/userbyId/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Pets_Project_Backend.Controllers.WishListController",
     "Method": "AddOrRemove",
     "RelativePath": "api/WishList/AddOrRemove/{pro_id}",
