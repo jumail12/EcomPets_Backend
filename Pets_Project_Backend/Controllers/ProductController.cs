@@ -155,7 +155,7 @@ namespace Pets_Project_Backend.Controllers
                 _logger.LogError(ex, "An error occurred while adding a product.");
 
                 // Return a generic error message
-                return StatusCode(500, "An error occurred while adding the product. Please try again later.");
+                return StatusCode(500,ex.InnerException?.Message);
             }
         }
 

@@ -29,6 +29,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                     ProductDescription=addPro.ProductDescription,
                     ProductPrice=addPro.ProductPrice,
                     OfferPrize=addPro.OfferPrize,
+                    Rating=addPro.Rating,
                     CategoryId=addPro.CategoryId,
                     ImageUrl=imageUrl,
                 };
@@ -38,7 +39,7 @@ namespace Pets_Project_Backend.Services.Product_Services
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new Exception(ex.InnerException?.Message);
             }
           
         }
@@ -54,6 +55,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                     ProductDescription = a.ProductDescription,
                     ProductPrice = a.ProductPrice,
                     OfferPrize = a.OfferPrize,
+                    Rating=a.Rating,
                     ImageUrl = a.ImageUrl,
                     StockId = a.StockId,
                     CategoryName=a._Category.CategoryName
@@ -82,6 +84,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                     ProductPrice = a.ProductPrice,
                     OfferPrize=a.OfferPrize,
                     ImageUrl = a.ImageUrl,
+                    Rating = a.Rating,
                     StockId = a.StockId,
                     CategoryName = a._Category.CategoryName
                 }).FirstOrDefaultAsync(b => b.ProductId == id);
@@ -112,6 +115,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                         ProductDescription = a.ProductDescription,
                         ProductPrice = a.ProductPrice,
                         OfferPrize=a.OfferPrize,
+                        Rating=a.Rating,
                         ImageUrl = a.ImageUrl,
                         StockId = a.StockId,
                         CategoryName = a._Category.CategoryName
@@ -134,6 +138,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                         ProductDescription = a.ProductDescription,
                         ProductPrice = a.ProductPrice,
                         OfferPrize=a.OfferPrize,
+                        Rating=a.Rating,    
                         ImageUrl = a.ImageUrl,
                         StockId = a.StockId,
                         CategoryName = a._Category.CategoryName
@@ -188,6 +193,8 @@ namespace Pets_Project_Backend.Services.Product_Services
                     pro.ProductName = addPro.ProductName;
                     pro.ProductDescription = addPro.ProductDescription;
                     pro.ProductPrice = addPro.ProductPrice; 
+                    pro.CategoryId = addPro.CategoryId;
+                    pro.Rating = addPro.Rating;
                     pro.OfferPrize = addPro.OfferPrize;
                     pro.CategoryId = addPro.CategoryId;
                     
@@ -228,6 +235,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                         ProductDescription=b.ProductDescription,
                         ProductPrice=b.ProductPrice,
                         OfferPrize=b.OfferPrize,
+                        Rating=b.Rating,
                         ImageUrl=b.ImageUrl,
                         StockId=b.StockId,
                         CategoryName=b._Category.CategoryName
