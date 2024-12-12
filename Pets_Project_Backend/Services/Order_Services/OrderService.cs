@@ -3,15 +3,81 @@ using Pets_Project_Backend.Context;
 using Pets_Project_Backend.Data.Models.OrderModel;
 using Pets_Project_Backend.Data.Models.OrderModel.Order_Dto;
 using Pets_Project_Backend.Data.Models.ProductModel;
+using Razorpay.Api;
 
 namespace Pets_Project_Backend.Services.Order_Services
 {
     public class OrderService : IOrderService
     {
         private readonly ApplicationContext _context;
-        public OrderService(ApplicationContext context)
+        private readonly IConfiguration _configuration;
+        public OrderService(ApplicationContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
+        }
+
+        //razor pay
+
+        public async Task<string> RazorPayOrderCreate(long price)
+        {
+            try
+            {
+                Dictionary<string, object> input = new Dictionary<string, object>();
+                Random random = new Random();
+                string TrasactionId = random.Next(0, 1000).ToString();
+                input.Add("amount", Convert.ToDecimal(price) * 100);
+                input.Add("currency", "INR");
+                input.Add("receipt", TrasactionId);
+
+                string key = _configuration["Razorpay:KeyId"];
+                string secret = _configuration["Razorpay:KeySecret"];
+
+                RazorpayClient client = new RazorpayClient(key, secret);
+                Razorpay.Api.Order order = client.Order.Create(input);
+                var OrderId = order["id"].ToString();
+
+                return OrderId;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //razor pay paynent verfication
+        public async Task<bool> RazorPayment(PaymentDto payment)
+        {
+
+            if (payment == null ||
+               string.IsNullOrEmpty(payment.razorpay_payment_id) ||
+               string.IsNullOrEmpty(payment.razorpay_order_id) ||
+               string.IsNullOrEmpty(payment.razorpay_signature))
+            {
+                return false;
+            }
+
+            try
+            {
+                RazorpayClient client = new RazorpayClient(
+                   _configuration["Razorpay:KeyId"],
+                   _configuration["Razorpay:KeySecret"]
+               );
+
+                Dictionary<string, string> attributes = new Dictionary<string, string>
+                {
+                    { "razorpay_payment_id", payment.razorpay_payment_id },
+                    { "razorpay_order_id", payment.razorpay_order_id },
+                    { "razorpay_signature", payment.razorpay_signature }
+                };
+
+                Utils.verifyPaymentSignature(attributes);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.InnerException?.Message);
+            }
         }
 
         public async  Task<bool> indvidual_ProductBuy(int userId, int productId, CreateOrder_Dto order_Dto)
@@ -34,7 +100,7 @@ namespace Pets_Project_Backend.Services.Order_Services
              .ThenInclude(b => b._product)
              .FirstOrDefaultAsync(c => c.userId == userId);
 
-                    var new_order = new Order
+                    var new_order = new Data.Models.OrderModel.Order
                     {
                         userId = userId,
                         OrderDate=DateTime.Now,
@@ -82,7 +148,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                     throw new Exception("Cart is empty");
                 }
 
-                var order = new Order
+                var order = new Data.Models.OrderModel.Order
                 {
                     userId = userId,
                     OrderDate=DateTime.Now,
@@ -134,7 +200,9 @@ namespace Pets_Project_Backend.Services.Order_Services
                     .Where(c=>c.userId==userId)
                     .ToListAsync();
 
-                var orderDetails= orders.Select(a=> new OrderView_Dto
+                var orderDetails= orders
+                    .Where(r=>r._Items?.Count>0)
+                    .Select(a=> new OrderView_Dto
                 {
                     OrderId=a.OrderId,
                     OrderDate = a.OrderDate.Value,
@@ -149,6 +217,8 @@ namespace Pets_Project_Backend.Services.Order_Services
                         TotalPrice=b.TotalPrice,
                     }).ToList(),
                 }).ToList();
+
+
 
                 return orderDetails;
             }

@@ -248,6 +248,38 @@
   },
   {
     "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
+    "Method": "Razor_orderCreate",
+    "RelativePath": "api/Order/razor-order-create",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "price",
+        "Type": "System.Int64",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
+    "Method": "RazorPaymentVerify",
+    "RelativePath": "api/Order/razor-payment-verify",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "razorpay",
+        "Type": "Pets_Project_Backend.Data.Models.OrderModel.Order_Dto.PaymentDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
     "Method": "TotalRevenue",
     "RelativePath": "api/Order/Total Revenue",
     "HttpMethod": "GET",

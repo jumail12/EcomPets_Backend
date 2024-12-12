@@ -173,3 +173,5 @@ F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\bin\Debug\net8
 F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\obj\Debug\net8.0\Pets_Project_Backend.sourcelink.json
 F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\bin\Debug\net8.0\CloudinaryDotNet.dll
 F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\bin\Debug\net8.0\Newtonsoft.Json.dll
+F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\bin\Debug\net8.0\BouncyCastle.Crypto.dll
+F:\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\bin\Debug\net8.0\Razorpay.dll

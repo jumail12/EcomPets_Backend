@@ -4,6 +4,10 @@ namespace Pets_Project_Backend.Services.Order_Services
 {
     public interface IOrderService
     {
+        Task<string> RazorPayOrderCreate(long price);
+        Task<bool>  RazorPayment(PaymentDto payment);
+
+
         Task<bool> CreateOrder_CheckOut(int userId,CreateOrder_Dto  createOrderDto);
         Task<bool> indvidual_ProductBuy(int userId,int productId,CreateOrder_Dto order_Dto);
         Task<List<OrderView_Dto>> GetOrderDetails(int userId);

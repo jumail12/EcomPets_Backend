@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Pets_Project_Backend.ApiResponse;
 using Pets_Project_Backend.Data.Models.OrderModel.Order_Dto;
 using Pets_Project_Backend.Services.Order_Services;
@@ -17,6 +18,49 @@ namespace Pets_Project_Backend.Controllers
             _orderService = orderService;
         }
 
+
+        [Authorize]
+        [HttpPost("razor-order-create")]
+        public async Task<IActionResult> Razor_orderCreate(long price)
+        {
+            try
+            {
+                if (price <= 0)
+                {
+                    return BadRequest("enter a valid money ");
+                }
+
+                var orderId= await _orderService.RazorPayOrderCreate(price);
+                return Ok(new ApiResponse<string>(true, "Order created", orderId, null));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.InnerException?.Message);  
+            }
+        }
+
+        [Authorize]
+        [HttpPost("razor-payment-verify")]
+        public async Task<IActionResult> RazorPaymentVerify([FromBody] PaymentDto razorpay)
+        {
+            try
+            {
+                if (razorpay == null)
+                {
+                    return BadRequest(new ApiResponse<string>(false, "razorpay details must not null here",null,null));
+                }
+                var res=await _orderService.RazorPayment(razorpay);
+                if (!res)
+                {
+                    return BadRequest(new ApiResponse<string>(true, "Error in payment", "", "check payment details"));
+                }
+                return Ok(new ApiResponse<string>(true, "done", "Success", null));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.InnerException?.Message);  
+            }
+        }
 
 
 
@@ -35,7 +79,7 @@ namespace Pets_Project_Backend.Controllers
                 var res = await _orderService.indvidual_ProductBuy(user_id, pro_id, dto);
 
                 //return Ok("Product purchased successfully.");
-                return Ok(new ApiResponse<string>(true, "Product purchased successfully.", null, null));
+                return Ok(new ApiResponse<string>(true, "Product purchased successfully.", "done", null));
                 
             }
             catch (Exception ex)
@@ -53,7 +97,7 @@ namespace Pets_Project_Backend.Controllers
                 var user_id = Convert.ToInt32(HttpContext.Items["Id"]);
                 var res=await _orderService.CreateOrder_CheckOut(user_id, createOrder_Dto);
                 //return Ok(res + "Order placed");
-                return Ok(new ApiResponse<string>(true, " successfully.", null, null));
+                return Ok(new ApiResponse<string>(true, " successfully.", "done", null));
 
             }
             catch (Exception ex)
@@ -69,9 +113,10 @@ namespace Pets_Project_Backend.Controllers
             {
                 var u_id=Convert.ToInt32(HttpContext.Items["Id"]);
                 var res=await _orderService.GetOrderDetails(u_id);
+
                 return Ok(new ApiResponse<IEnumerable<OrderView_Dto>>(true, " successfully.", res, null));
 
-                return Ok(res);
+                
             }
             catch (Exception ex)
             {
