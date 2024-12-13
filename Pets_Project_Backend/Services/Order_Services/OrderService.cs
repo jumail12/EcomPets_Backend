@@ -342,10 +342,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                 {
                     order.OrderStatus = Delivered;  
                 }
-                else
-                {
-                    order.OrderStatus=OrderPlaced;  
-                }
+              
 
                 await _context.SaveChangesAsync();
                 return order.OrderStatus;
