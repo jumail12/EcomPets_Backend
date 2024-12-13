@@ -18,6 +18,21 @@ namespace Pets_Project_Backend.Controllers
             _orderService = orderService;
         }
 
+        [Authorize(Roles ="Admin")]
+        [HttpPatch("update-order-status/{oid}")]
+        public async Task<IActionResult> OrderStatusU(int oid)
+        {
+            try
+            {
+                var res=await _orderService.UpdateOrderStatus(oid);
+                return Ok(new ApiResponse<string>(true, "updated", res, null));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.InnerException?.Message);
+            }
+        }
+
 
         [Authorize]
         [HttpPost("razor-order-create")]

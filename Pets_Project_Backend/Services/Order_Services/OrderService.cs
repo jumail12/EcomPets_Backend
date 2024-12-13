@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Pets_Project_Backend.ApiResponse;
 using Pets_Project_Backend.Context;
 using Pets_Project_Backend.Data.Models.OrderModel;
 using Pets_Project_Backend.Data.Models.OrderModel.Order_Dto;
@@ -206,6 +207,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                 {
                     OrderId=a.OrderId,
                     OrderDate = a.OrderDate.Value,
+                    OrderStatus = a.OrderStatus,
                     Items =a._Items.Select(b=> new OrderItemDto
                     {
                         OrderItemId=b.OrderId,
@@ -242,6 +244,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                         OrderId = a.OrderId,
                         OrderDate = a.OrderDate.Value,
                         OrderString = a.OrderString,
+                        OrderStatus = a.OrderStatus,
                         TransactionId = a.TransactionId,
                         UserName=a._UserAd.CustomerName,
                         Phone=a._UserAd.CustomerPhone,
@@ -300,6 +303,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                 {
                     OrderId = a.OrderId,
                     OrderDate = a.OrderDate.Value,
+                    OrderStatus = a.OrderStatus,
                     Items = a._Items.Select(b => new OrderItemDto
                     {
                         OrderItemId = b.OrderId,
@@ -317,6 +321,38 @@ namespace Pets_Project_Backend.Services.Order_Services
             catch (Exception ex)
             {
                     throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<string> UpdateOrderStatus( int oId)
+        {
+            try
+            {
+                var order=await _context.Order.FirstOrDefaultAsync(a=>a.OrderId == oId);
+
+                if(order == null)
+                {
+                    throw new Exception("Order not found");
+                }
+
+                const string? OrderPlaced = "OrderPlaced";
+                const string? Delivered = "Delivered";
+
+                if (order.OrderStatus == OrderPlaced)
+                {
+                    order.OrderStatus = Delivered;  
+                }
+                else
+                {
+                    order.OrderStatus=OrderPlaced;  
+                }
+
+                await _context.SaveChangesAsync();
+                return order.OrderStatus;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.InnerException?.Message);
             }
         }
 

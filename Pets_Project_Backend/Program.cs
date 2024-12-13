@@ -111,10 +111,6 @@ namespace Pets_Project_Backend
                 };
             });
 
-          
-
-
-
             builder.Services.AddAuthorization();
 
             //----------------------------------------------------------------------------------------

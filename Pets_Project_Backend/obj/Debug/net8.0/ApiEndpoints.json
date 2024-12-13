@@ -299,6 +299,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
+    "Method": "OrderStatusU",
+    "RelativePath": "api/Order/update-order-status/{oid}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "oid",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "Pets_Project_Backend.Controllers.ProductController",
     "Method": "AddPro",
     "RelativePath": "api/Product/Add_Pro",

@@ -15,5 +15,7 @@ namespace Pets_Project_Backend.Services.Order_Services
         Task<decimal> TotalRevenue();
         Task<int> TotalProductsPurchased();
        Task<List<OrderView_Dto>> GetOrderDetailsAdmin_byuserId(int userId);
+
+        Task<string> UpdateOrderStatus( int oId);
     }
 }
