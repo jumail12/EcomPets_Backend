@@ -17,6 +17,22 @@
   },
   {
     "ContainingType": "Pets_Project_Backend.Controllers.AddressController",
+    "Method": "deleteAddres",
+    "RelativePath": "api/Address/delete-address/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.AddressController",
     "Method": "GetAddresses",
     "RelativePath": "api/Address/GetAddresses",
     "HttpMethod": "GET",

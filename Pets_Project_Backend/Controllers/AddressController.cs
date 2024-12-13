@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Pets_Project_Backend.ApiResponse;
 using Pets_Project_Backend.Data.Models.AddressModel.Address_Dtos;
 using Pets_Project_Backend.Services.AddressServices;
 
@@ -51,6 +52,26 @@ namespace Pets_Project_Backend.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, new { message = ex.Message });
+            }
+        }
+
+        [HttpDelete("delete-address/{id}")]
+        [Authorize(Roles = "User")]
+        public async Task<IActionResult> deleteAddres(int id)
+        {
+            try
+            {
+                var res=await _addressService.RemoveAddress(id);
+                if (!res)
+                {
+                    return NotFound(new ApiResponse<string>(false,"address not found","[]",null));
+                }
+
+                return Ok(new ApiResponse<string>(true,"Address removed","[]",null));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { ex.Message });
             }
         }
     }

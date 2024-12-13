@@ -6,6 +6,7 @@ namespace Pets_Project_Backend.Services.AddressServices
     {
         Task<bool> AddnewAddress(int userId, AddNewAddress_dto address);
         Task<List<GetAddress_dto>> GetAddress(int userId);
+        Task<bool> RemoveAddress(int addId);
         
     }
 }

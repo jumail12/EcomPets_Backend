@@ -49,7 +49,6 @@ namespace Pets_Project_Backend.Services.Order_Services
         //razor pay paynent verfication
         public async Task<bool> RazorPayment(PaymentDto payment)
         {
-
             if (payment == null ||
                string.IsNullOrEmpty(payment.razorpay_payment_id) ||
                string.IsNullOrEmpty(payment.razorpay_order_id) ||
@@ -57,7 +56,6 @@ namespace Pets_Project_Backend.Services.Order_Services
             {
                 return false;
             }
-
             try
             {
                 RazorpayClient client = new RazorpayClient(
@@ -158,8 +156,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                     OrderString= createOrderDto.OrderString,
                     TransactionId= createOrderDto.TransactionId,
                     _Items=cart._Items.Select(a=> new OrderItem
-                    {
-                        
+                    { 
                         ProductId=a._Product.ProductId,
                         Quantity=a.ProductQty,
                         TotalPrice=a._Product.OfferPrize*a.ProductQty
@@ -208,6 +205,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                     OrderId=a.OrderId,
                     OrderDate = a.OrderDate.Value,
                     OrderStatus = a.OrderStatus,
+                    TransactionId=a.TransactionId,
                     Items =a._Items.Select(b=> new OrderItemDto
                     {
                         OrderItemId=b.OrderId,
@@ -304,6 +302,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                     OrderId = a.OrderId,
                     OrderDate = a.OrderDate.Value,
                     OrderStatus = a.OrderStatus,
+                    TransactionId=a.TransactionId,
                     Items = a._Items.Select(b => new OrderItemDto
                     {
                         OrderItemId = b.OrderId,

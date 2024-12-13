@@ -80,5 +80,26 @@ namespace Pets_Project_Backend.Services.AddressServices
                 throw new Exception($"An error occurred while saving changes: {ex.InnerException?.Message ?? ex.Message}");
             }
         }
+
+        public async Task<bool> RemoveAddress(int addId)
+        {
+            try
+            {
+                var adres=await _context.UserAddress.FirstOrDefaultAsync(a=>a.AddressId==addId);
+                if(adres == null)
+                {
+                    return false;
+                }
+
+                _context.UserAddress.Remove(adres);
+                await _context.SaveChangesAsync();
+                return true;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.InnerException?.Message);
+            }
+        }
     }
 }
