@@ -114,6 +114,16 @@ namespace Pets_Project_Backend
             builder.Services.AddAuthorization();
 
             //----------------------------------------------------------------------------------------
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("ReactPolicy", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyMethod()
+                           .AllowAnyHeader();
+                });
+            });
+            //----------------------------------------------------------------------------------------
 
 
 
@@ -126,7 +136,7 @@ namespace Pets_Project_Backend
                 app.UseSwaggerUI();
             }
 
-           
+            app.UseCors("ReactPolicy");
 
             app.UseHttpsRedirection();
 

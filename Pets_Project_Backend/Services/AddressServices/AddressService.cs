@@ -64,6 +64,7 @@ namespace Pets_Project_Backend.Services.AddressServices
                 var address=await _context.UserAddress.Where(a=>a.userId == userId)
                     .Select(b=> new GetAddress_dto
                     {
+                        AddressId=b.AddressId,
                         CustomerName=b.CustomerName,
                         StreetName=b.StreetName,
                         City=b.City,

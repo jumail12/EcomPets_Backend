@@ -224,35 +224,43 @@ namespace Pets_Project_Backend.Services.CartServices
         {
             try
             {
-                var user =await _context.Users.Include(a=>a._Cart)
-                    .ThenInclude(b=>b._Items)
-                    .ThenInclude(c=>c._Product)
-                    .FirstOrDefaultAsync(c=>c.Id==userId);
+                var user = await _context.Users
+                    .Include(a => a._Cart)
+                    .ThenInclude(b => b._Items)
+                    .ThenInclude(c => c._Product)
+                    .FirstOrDefaultAsync(c => c.Id == userId);
 
-               if(user==null)
+                if (user == null)
                 {
                     throw new Exception("User not found");
                 }
 
-               var item =user?._Cart?._Items?.FirstOrDefault(b=>b.ProductId==productId);
-                if (item==null)
+                var item = user?._Cart?._Items?.FirstOrDefault(b => b.ProductId == productId);
+                if (item == null)
                 {
-                    return new ApiResponse<CartItem>(false, "Product not found", null, "Check the informations");
-
+                    return new ApiResponse<CartItem>(false, "Product not found", null, "Check the information provided");
                 }
 
                 if (item.ProductQty > 1)
                 {
+                    // Decrease the quantity if it is greater than 1
                     item.ProductQty--;
                 }
                 else
                 {
-                    item.ProductQty = 1;
+                    // Remove the item from the cart if the quantity reaches 1 and is decremented
+                    user._Cart._Items.Remove(item);
+                    item = null; // Since it's removed, set to null
                 }
 
                 await _context.SaveChangesAsync();
-                    return new ApiResponse<CartItem>(true, "Quantity decresed", item, "");
 
+                if (item == null)
+                {
+                    return new ApiResponse<CartItem>(true, "Item removed from cart", null, null);
+                }
+
+                return new ApiResponse<CartItem>(true, "Quantity updated", item, null);
             }
             catch (ArgumentException ex)
             {
@@ -263,6 +271,8 @@ namespace Pets_Project_Backend.Services.CartServices
                 throw new InvalidOperationException(ex.Message);
             }
         }
+
+
 
 
 

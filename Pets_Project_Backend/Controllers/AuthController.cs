@@ -27,6 +27,7 @@ namespace Pets_Project_Backend.Controllers
                 if (!isDone)
                 {
                     return BadRequest("User alredy exists");
+
                 }
 
                 return Ok ( "User registered succesfully");

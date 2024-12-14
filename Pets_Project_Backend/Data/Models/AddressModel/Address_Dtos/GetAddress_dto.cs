@@ -2,6 +2,7 @@
 {
     public class GetAddress_dto
     {
+        public int? AddressId { get; set; }
         public string? CustomerName { get; set; }
         public string? StreetName { get; set; }
         public string? City { get; set; }

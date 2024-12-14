@@ -177,7 +177,7 @@ namespace Pets_Project_Backend.Services.Product_Services
             }
         }
 
-        public async Task UpdatePro(int id, AddProduct_Dto addPro, IFormFile image)
+        public async Task UpdatePro(int id, AddProduct_Dto addPro, IFormFile? image)
         {
             try
             {
@@ -197,7 +197,9 @@ namespace Pets_Project_Backend.Services.Product_Services
                     pro.Rating = addPro.Rating;
                     pro.OfferPrize = addPro.OfferPrize;
                     pro.CategoryId = addPro.CategoryId;
-                    
+
+                  
+
                     if(image != null && image.Length>0)
                     {
                         string imgUrl=await _cloudinaryService.UploadImageAsync(image);

@@ -163,7 +163,7 @@ namespace Pets_Project_Backend.Controllers
         //update
         [Authorize(Roles="Admin")]
         [HttpPut("Update_Pro/{id}")]
-        public async Task<IActionResult> Update_pro( int id ,[FromForm]AddProduct_Dto updateProduct_Dto, IFormFile image)
+        public async Task<IActionResult> Update_pro( int id ,[FromForm]AddProduct_Dto updateProduct_Dto, IFormFile? image)
         {
             try
             {

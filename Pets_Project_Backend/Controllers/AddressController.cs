@@ -25,7 +25,7 @@ namespace Pets_Project_Backend.Controllers
             {
                 var user_id = Convert.ToInt32(HttpContext.Items["Id"]);
                 var res = await _addressService.AddnewAddress(user_id, _dto);
-                return Ok(new { message = "Address added successfully." });
+                return Ok(new ApiResponse<string>(true, "Address added successfully.","[done]",null));
             }
             catch (Exception ex)
             {
@@ -44,7 +44,7 @@ namespace Pets_Project_Backend.Controllers
                 var res = await _addressService.GetAddress(user_id);
                 if (res == null || !res.Any())
                 {
-                    return NotFound(new { message = "No addresses found for this user." });
+                    return NotFound(new ApiResponse<string>(true, "No addresses found for this user.","[]",null));
                 }
 
                 return Ok(res);
