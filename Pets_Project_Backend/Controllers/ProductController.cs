@@ -175,7 +175,5 @@ namespace Pets_Project_Backend.Controllers
                 return StatusCode(500,ex.Message);
             }
         }
-
-
     }
 }

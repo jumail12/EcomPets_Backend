@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Pets_Project_Backend.ApiResponse;
 using Pets_Project_Backend.Context;
 using Pets_Project_Backend.Data.Models.UserModels;
 using Pets_Project_Backend.Data.Models.UserModels.UserDtos;
@@ -57,7 +58,7 @@ namespace Pets_Project_Backend.Services.Auth_Services
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
 

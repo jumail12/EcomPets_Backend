@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Pets_Project_Backend.ApiResponse;
 using Pets_Project_Backend.Data.Models.UserModels.UserDtos;
 using Pets_Project_Backend.Services.Auth_Services;
 
@@ -26,13 +27,15 @@ namespace Pets_Project_Backend.Controllers
                 bool isDone=await _authServices.Register(newUser);
                 if (!isDone)
                 {
-                    return BadRequest("User alredy exists");
-
+                    return BadRequest(new ApiResponse<string>(false, "User alredy exists","[]",null));
                 }
 
-                return Ok ( "User registered succesfully");
+            
+                return Ok(new ApiResponse<string>(true, "User registered succesfully", "[done]", null));
+
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return StatusCode(500, "Server Error");
             }
