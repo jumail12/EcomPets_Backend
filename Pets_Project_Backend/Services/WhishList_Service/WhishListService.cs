@@ -68,6 +68,7 @@ namespace Pets_Project_Backend.Services.WhishList_Service
                         ProductName=a._Product.ProductName,
                         ProductDescription=a._Product.ProductDescription,
                         Price=a._Product.ProductPrice,
+                        OfferPrice=a._Product.OfferPrize,
                         ProductImage=a._Product.ImageUrl,
                         CategoryName=a._Product._Category?.CategoryName
                     }).ToList();
@@ -81,6 +82,31 @@ namespace Pets_Project_Backend.Services.WhishList_Service
 
             }
             
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException(ex.Message);
+            }
+        }
+
+        public async Task<ApiResponse<string>> RemovefromWishlist(int u_id, int pro_id)
+        {
+            try
+            {
+                var isExists = await _context.WhishList
+                  .Include(a => a._Product)
+                  .FirstOrDefaultAsync(b => b.productId == pro_id && b.userId == u_id);
+
+                if (isExists != null)
+                {
+                    _context.WhishList .Remove(isExists);
+                    await _context.SaveChangesAsync();
+                    return new ApiResponse<string>(true, "Item removed from wishList", "done", null);
+                }
+
+                return new ApiResponse<string>(false, "Product not found", "", null);
+
+
+            }
             catch (Exception ex)
             {
                 throw new InvalidOperationException(ex.Message);

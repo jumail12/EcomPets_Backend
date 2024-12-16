@@ -59,5 +59,28 @@ namespace Pets_Project_Backend.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [HttpDelete("Remove/{pro_id}")]
+        [Authorize]
+        public async Task<IActionResult> remove(int pro_id)
+        {
+            try
+            {
+                int u_id = Convert.ToInt32(HttpContext.Items["Id"]);
+                var res = await _service.RemovefromWishlist(u_id, pro_id);
+
+                if (res.IsSuccess)
+                {
+                    return Ok(res);
+                }
+
+                return BadRequest(res); 
+              
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

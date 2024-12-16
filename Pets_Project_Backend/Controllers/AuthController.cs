@@ -52,7 +52,7 @@ namespace Pets_Project_Backend.Controllers
 
                 if(res.Error=="Not Found")
                 {
-                    return NotFound(res.Error);
+                    return NotFound("Email is not verified");
                 }
 
                 if(res.Error== "Invalid password")

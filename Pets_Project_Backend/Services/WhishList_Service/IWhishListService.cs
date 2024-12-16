@@ -6,6 +6,7 @@ namespace Pets_Project_Backend.Services.WhishList_Service
     public interface IWhishListService
     {
         Task<ApiResponse<string>> AddOrRemove(int u_id, int pro_id);
+        Task<ApiResponse<string>> RemovefromWishlist(int u_id, int pro_id);
         Task<List<WhishList_View_Dto>> GetAllWishItems(int u_id);
     }
 }
