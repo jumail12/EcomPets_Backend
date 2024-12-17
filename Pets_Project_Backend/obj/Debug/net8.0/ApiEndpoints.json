@@ -404,6 +404,16 @@
   },
   {
     "ContainingType": "Pets_Project_Backend.Controllers.ProductController",
+    "Method": "FeturedPro",
+    "RelativePath": "api/Product/FeturedPro",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.ProductController",
     "Method": "GetByCateName",
     "RelativePath": "api/Product/getByCategoryName",
     "HttpMethod": "GET",

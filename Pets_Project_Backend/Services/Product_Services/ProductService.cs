@@ -17,6 +17,34 @@ namespace Pets_Project_Backend.Services.Product_Services
             _cloudinaryService = clo;
         }
 
+        public async Task<List<Product_with_Category_Dto>> FeturedPro()
+        {
+            try
+            {
+                var productWithCategory = await _context.Products
+                    .Where(c=>c.Rating>4)
+                    .Select(a => new Product_with_Category_Dto
+                {
+                    ProductId = a.ProductId,
+                    ProductName = a.ProductName,
+                    ProductDescription = a.ProductDescription,
+                    ProductPrice = a.ProductPrice,
+                    OfferPrize = a.OfferPrize,
+                    Rating = a.Rating,
+                    ImageUrl = a.ImageUrl,
+                    StockId = a.StockId,
+                    CategoryName = a._Category.CategoryName
+                }).ToListAsync();
+
+
+                return productWithCategory;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
 
         public async Task AddProduct(AddProduct_Dto addPro,IFormFile image)
         {
@@ -229,7 +257,7 @@ namespace Pets_Project_Backend.Services.Product_Services
                     return new List<Product_with_Category_Dto> { new Product_with_Category_Dto() };
                 }
 
-                var pro=await _context.Products.Where(a=>a.ProductName.ToLower()==search.ToLower())
+                var pro=await _context.Products.Where(a=>a.ProductName.ToLower().Contains(search.ToLower()))
                     .Select(b=>new Product_with_Category_Dto
                     {
                         ProductId = b.ProductId,

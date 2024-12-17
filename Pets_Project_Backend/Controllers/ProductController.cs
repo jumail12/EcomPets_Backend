@@ -20,6 +20,21 @@ namespace Pets_Project_Backend.Controllers
             _logger = logger;
         }
 
+
+        [HttpGet("FeturedPro")]
+        public async Task<IActionResult> FeturedPro()
+        {
+            try
+            {
+                var res= await _Services.FeturedPro();
+                return Ok(new ApiResponse<IEnumerable<Product_with_Category_Dto>>(true, "Product fetched", res, null));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         //get all
         [HttpGet("All")]
         public async Task<IActionResult> GetAllProducts()
