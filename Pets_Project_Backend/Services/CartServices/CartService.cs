@@ -16,7 +16,7 @@ namespace Pets_Project_Backend.Services.CartServices
             _context = context;
         }
 
-        public async Task<List<CartView_Dto>> GetAllCartItems(int userId)
+        public async Task<CartWithTotalPrice> GetAllCartItems(int userId)
         {
             if (userId <= 0)
             {
@@ -28,27 +28,37 @@ namespace Pets_Project_Backend.Services.CartServices
                 .ThenInclude(item => item._Product)
                 .FirstOrDefaultAsync(cart => cart.UserId == userId);
 
-           
-
-
-
-            if (userCart == null)
+            if (userCart == null || userCart._Items == null || !userCart._Items.Any())
             {
-                return new List<CartView_Dto>(); // Return empty list if no cart is found
+                return new CartWithTotalPrice
+                {
+                    TotalCartPrice = 0, // Empty cart case
+                    c_items = new List<CartView_Dto>() // Empty list
+                };
             }
 
-            return userCart._Items
-                .Select(item => new CartView_Dto
-                {
-                    ProductId = item._Product.ProductId,
-                    ProductName = item._Product.ProductName,
-                    Price = (int?)item._Product.OfferPrize,
-                    ProductImage = item._Product.ImageUrl,
-                    TotalAmount = (int?)(item._Product.OfferPrize * item.ProductQty),
-                    Quantity = item.ProductQty
-                })
-                .ToList();
+            // Calculate the total cart price and transform the cart items
+            var cartItems = userCart._Items.Select(item => new CartView_Dto
+            {
+                ProductId = item._Product.ProductId,
+                ProductName = item._Product.ProductName,
+                Price = (int?)item._Product.OfferPrize,
+                ProductImage = item._Product.ImageUrl,
+                TotalAmount = (int?)(item._Product.OfferPrize * item.ProductQty),
+                Quantity = item.ProductQty
+            }).ToList();
+
+            var totalCartPrice = cartItems.Sum(item => item.TotalAmount ?? 0); // Sum up the total price
+
+            return new CartWithTotalPrice
+            {
+                TotalCartPrice = Convert.ToInt32(totalCartPrice),
+                c_items = cartItems
+            };
         }
+
+
+
 
 
         public async Task<ApiResponse<CartItem>> AddToCart(int userId, int productId)
@@ -271,10 +281,6 @@ namespace Pets_Project_Backend.Services.CartServices
                 throw new InvalidOperationException(ex.Message);
             }
         }
-
-
-
-
 
     }
 }

@@ -31,16 +31,16 @@ namespace Pets_Project_Backend.Controllers
 
               
 
-                if(items.Count == 0)
+                if(items == null)
                 {
-                    return Ok(new ApiResponse<IEnumerable<CartView_Dto>>(false,"Cart is Empty",null,"Add some Products"));
+                    return Ok(new ApiResponse<CartWithTotalPrice>(false,"Cart is Empty",null,"Add some Products"));
                 }
 
-                return Ok(new ApiResponse<IEnumerable<CartView_Dto>>(true, "Cart successfully fetched",items,null));
+                return Ok(new ApiResponse<CartWithTotalPrice>(true, "Cart successfully fetched",items,null));
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new ApiResponse<IEnumerable<CartView_Dto>>(false, ex.Message, null, ex.Message));
+                return StatusCode(500, new ApiResponse<CartWithTotalPrice>(false, ex.Message, null, ex.Message));
             }
         }
 
@@ -141,5 +141,7 @@ namespace Pets_Project_Backend.Controllers
                
             }
         }
+
+        
     }
 }

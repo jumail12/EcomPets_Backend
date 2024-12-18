@@ -6,10 +6,12 @@ namespace Pets_Project_Backend.Services.CartServices
 {
     public interface ICartService
     {
-        Task<List<CartView_Dto>> GetAllCartItems(int userId);
+        Task<CartWithTotalPrice> GetAllCartItems(int userId);
         Task<ApiResponse<CartItem>> AddToCart(int userId, int productId);
         Task<ApiResponse<string>> RemoveFromCart(int userId, int productId);
         Task<ApiResponse<CartItem>> IncreaseQuantity(int userId, int productId);
         Task<ApiResponse<CartItem>> DecreaseQuantity(int userId, int productId);
+
+        
     }
 }
