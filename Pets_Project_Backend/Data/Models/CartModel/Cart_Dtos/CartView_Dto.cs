@@ -11,6 +11,8 @@
 
         public int? TotalAmount { get; set; }
 
+        public int? OrginalPrize { get; set; }
+
         public int? Quantity { get; set; }
 
     }

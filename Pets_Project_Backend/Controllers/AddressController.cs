@@ -47,7 +47,7 @@ namespace Pets_Project_Backend.Controllers
                     return NotFound(new ApiResponse<string>(true, "No addresses found for this user.","[]",null));
                 }
 
-                return Ok(res);
+                return Ok(new ApiResponse<IEnumerable<GetAddress_dto>>(true,"fetched ",res,null));
             }
             catch (Exception ex)
             {

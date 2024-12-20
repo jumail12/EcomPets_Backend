@@ -3,6 +3,7 @@
     public class CartWithTotalPrice
     {
         public int TotalCartPrice { get; set; }
+        
         public List<CartView_Dto> c_items {  get; set; }
     }
 }

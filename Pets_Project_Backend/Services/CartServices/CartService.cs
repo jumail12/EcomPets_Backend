@@ -44,11 +44,13 @@ namespace Pets_Project_Backend.Services.CartServices
                 ProductName = item._Product.ProductName,
                 Price = (int?)item._Product.OfferPrize,
                 ProductImage = item._Product.ImageUrl,
-                TotalAmount = (int?)(item._Product.OfferPrize * item.ProductQty),
+                TotalAmount = Convert.ToInt32(item._Product.OfferPrize) * item.ProductQty,
+                OrginalPrize = Convert.ToInt32(item._Product.ProductPrice),
                 Quantity = item.ProductQty
             }).ToList();
 
-            var totalCartPrice = cartItems.Sum(item => item.TotalAmount ?? 0); // Sum up the total price
+            var totalCartPrice = cartItems.Sum(item =>(item.TotalAmount) ?? 0); // Sum up the total price
+
 
             return new CartWithTotalPrice
             {

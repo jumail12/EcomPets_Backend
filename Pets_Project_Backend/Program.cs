@@ -35,7 +35,7 @@ namespace Pets_Project_Backend
             builder.Services.AddEndpointsApiExplorer();
             //----------------------------------------------------------------------------------------
 
-            // Add services to the container.
+           
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "PetsEcom  API", Version = "v1" });

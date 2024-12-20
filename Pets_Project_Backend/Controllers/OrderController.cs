@@ -67,7 +67,7 @@ namespace Pets_Project_Backend.Controllers
                 var res=await _orderService.RazorPayment(razorpay);
                 if (!res)
                 {
-                    return BadRequest(new ApiResponse<string>(true, "Error in payment", "", "check payment details"));
+                    return BadRequest(new ApiResponse<string>(false, "Error in payment", "", "check payment details"));
                 }
                 return Ok(new ApiResponse<string>(true, "done", "Success", null));
             }
