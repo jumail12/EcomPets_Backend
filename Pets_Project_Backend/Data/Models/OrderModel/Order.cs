@@ -18,11 +18,14 @@ namespace Pets_Project_Backend.Data.Models.OrderModel
 
         [Required]
         public decimal? Total { get; set; }
+
         [Required]
         public string? OrderString { get; set; }
    
         [Required]
         public string? TransactionId { get; set; }
+
+
 
         public virtual UserAddress? _UserAd {  get; set; }
 

@@ -205,6 +205,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                     OrderId=a.OrderId,
                     OrderDate = a.OrderDate.Value,
                     OrderStatus = a.OrderStatus,
+                    OrderString= a.OrderString,
                     TransactionId=a.TransactionId,
                     Items =a._Items.Select(b=> new OrderItemDto
                     {
@@ -302,6 +303,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                     OrderId = a.OrderId,
                     OrderDate = a.OrderDate.Value,
                     OrderStatus = a.OrderStatus,
+                    OrderString = a.OrderString,
                     TransactionId=a.TransactionId,
                     Items = a._Items.Select(b => new OrderItemDto
                     {
@@ -334,13 +336,12 @@ namespace Pets_Project_Backend.Services.Order_Services
                     throw new Exception("Order not found");
                 }
 
-                const string? OrderPlaced = "OrderPlaced";
-                const string? Delivered = "Delivered";
+                //const string? OrderPlaced = "OrderPlaced";
+                //const string? Delivered = "Delivered";
 
-                if (order.OrderStatus == OrderPlaced)
-                {
-                    order.OrderStatus = Delivered;  
-                }
+               
+                    order.OrderStatus = "Delivered";  
+                
               
 
                 await _context.SaveChangesAsync();

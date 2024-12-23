@@ -69,9 +69,21 @@ namespace Pets_Project_Backend
             //----------------------------------------------------------------------------------------
 
 
-            // Context service and connection string setup
+            //// Context service and connection string setup
+            //builder.Services.AddDbContext<ApplicationContext>(options =>
+            //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
             builder.Services.AddDbContext<ApplicationContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        sqlOptions => sqlOptions.EnableRetryOnFailure(
+            maxRetryCount: 5,                     // Retry up to 5 times
+            maxRetryDelay: TimeSpan.FromSeconds(30), // Maximum delay between retries
+            errorNumbersToAdd: null                 // Optional: Additional SQL error codes to treat as transient
+        )
+    )
+);
+
 
             builder.Services.AddAutoMapper(typeof(MapperProfile));
 
