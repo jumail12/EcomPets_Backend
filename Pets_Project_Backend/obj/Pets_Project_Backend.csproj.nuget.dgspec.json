@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\BackEnd_Pets_Project\\Pets_Project_Backend\\Pets_Project_Backend\\Pets_Project_Backend.csproj": {}
+    "D:\\BackEnd_Pets_Project\\Pets_Project_Backend\\Pets_Project_Backend\\Pets_Project_Backend.csproj": {}
   },
   "projects": {
-    "F:\\BackEnd_Pets_Project\\Pets_Project_Backend\\Pets_Project_Backend\\Pets_Project_Backend.csproj": {
+    "D:\\BackEnd_Pets_Project\\Pets_Project_Backend\\Pets_Project_Backend\\Pets_Project_Backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\BackEnd_Pets_Project\\Pets_Project_Backend\\Pets_Project_Backend\\Pets_Project_Backend.csproj",
+        "projectUniqueName": "D:\\BackEnd_Pets_Project\\Pets_Project_Backend\\Pets_Project_Backend\\Pets_Project_Backend.csproj",
         "projectName": "Pets_Project_Backend",
-        "projectPath": "F:\\BackEnd_Pets_Project\\Pets_Project_Backend\\Pets_Project_Backend\\Pets_Project_Backend.csproj",
+        "projectPath": "D:\\BackEnd_Pets_Project\\Pets_Project_Backend\\Pets_Project_Backend\\Pets_Project_Backend.csproj",
         "packagesPath": "C:\\Users\\jumai\\.nuget\\packages\\",
-        "outputPath": "F:\\BackEnd_Pets_Project\\Pets_Project_Backend\\Pets_Project_Backend\\obj\\",
+        "outputPath": "D:\\BackEnd_Pets_Project\\Pets_Project_Backend\\Pets_Project_Backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jumai\\AppData\\Roaming\\NuGet\\NuGet.Config",
