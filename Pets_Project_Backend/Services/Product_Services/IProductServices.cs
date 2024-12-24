@@ -12,6 +12,7 @@ namespace Pets_Project_Backend.Services.Product_Services
         Task<bool> DeleteProduct(int id);
         Task UpdatePro(int id, AddProduct_Dto addPro, IFormFile image);
         Task<List<Product_with_Category_Dto>> SearchProduct(string search);
+        Task<List<Product_with_Category_Dto>> HotDeals();
 
     }
 }

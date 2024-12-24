@@ -446,6 +446,16 @@
   },
   {
     "ContainingType": "Pets_Project_Backend.Controllers.ProductController",
+    "Method": "HotDeals",
+    "RelativePath": "api/Product/HotDeals",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.ProductController",
     "Method": "SearchPro",
     "RelativePath": "api/Product/search-item",
     "HttpMethod": "GET",

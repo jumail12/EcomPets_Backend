@@ -21,6 +21,21 @@ namespace Pets_Project_Backend.Controllers
         }
 
 
+        [HttpGet("HotDeals")]
+        public async Task<IActionResult> HotDeals()
+        {
+            try
+            {
+                var res = await _Services.HotDeals();
+                return Ok(new ApiResponse<IEnumerable<Product_with_Category_Dto>>(true, "Product fetched", res, null));
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
         [HttpGet("FeturedPro")]
         public async Task<IActionResult> FeturedPro()
         {
