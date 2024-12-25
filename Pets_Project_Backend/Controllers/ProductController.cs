@@ -20,7 +20,6 @@ namespace Pets_Project_Backend.Controllers
             _logger = logger;
         }
 
-
         [HttpGet("HotDeals")]
         public async Task<IActionResult> HotDeals()
         {
@@ -34,7 +33,6 @@ namespace Pets_Project_Backend.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
 
         [HttpGet("FeturedPro")]
         public async Task<IActionResult> FeturedPro()
