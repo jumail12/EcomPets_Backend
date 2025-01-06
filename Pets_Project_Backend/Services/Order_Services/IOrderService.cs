@@ -16,6 +16,10 @@ namespace Pets_Project_Backend.Services.Order_Services
         Task<int> TotalProductsPurchased();
        Task<List<OrderView_Dto>> GetOrderDetailsAdmin_byuserId(int userId);
 
+        //Task<List<OrderAdminViewDto>> SearchOrder(int orderId,int userId,string orderStatus, DateTime? dateSt, DateTime dateEnd);
+        Task<List<OrderAdminViewDto>> SearchOrder(OrderSearchDto dto);
+
+
         Task<string> UpdateOrderStatus( int oId);
     }
 }

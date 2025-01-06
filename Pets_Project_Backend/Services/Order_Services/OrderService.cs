@@ -118,7 +118,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                 };
 
                 new_order._Items?.Add(orderItem);
-                await _context.Order.AddAsync(new_order);
+                 _context.Order.Add(new_order);
 
                 pro.StockId -= 1;
                 _context.Products.Update(pro);
@@ -351,6 +351,135 @@ namespace Pets_Project_Backend.Services.Order_Services
             {
                 throw new Exception(ex.InnerException?.Message);
             }
+        }
+
+
+        public async Task<List<OrderAdminViewDto>> SearchOrder(OrderSearchDto dto)
+        {
+            try
+            {
+
+                if (dto.OrderId != null)
+                {
+                    var orders = await _context.Order
+               .Include(a => a._UserAd)
+                  .Where(n => n.OrderId == dto.OrderId)
+                  .Select(a => new OrderAdminViewDto
+                  {
+                      OrderId = a.OrderId,
+                      OrderDate = a.OrderDate.Value,
+                      OrderStatus = a.OrderStatus,
+                      OrderString = a.OrderString,
+                      TransactionId = a.TransactionId,
+                      UserName = a._UserAd.CustomerName
+
+                  }).ToListAsync();
+                    return orders;
+                }
+              
+
+                if (dto.userId != null )
+                {
+
+                    var orders = await _context.Order
+                        .Include(a => a._UserAd)
+                           .Where(n => n.userId == dto.userId)
+                           .Select(a => new OrderAdminViewDto
+                           {
+                               OrderId = a.OrderId,
+                               OrderDate = a.OrderDate.Value,
+                               OrderStatus = a.OrderStatus,
+                               OrderString = a.OrderString,
+                               TransactionId = a.TransactionId,
+                               UserName = a._UserAd.CustomerName
+
+                           }).ToListAsync();
+                    return orders;
+                }
+
+                if (dto.OrderStatus != null && dto.OrderStatus== "OderPlaced")
+                {
+                    var stOrders = await _context.Order
+                   .Include(a => a._UserAd)
+                      .Where(n => n.OrderStatus.ToLower()==dto.OrderStatus.ToLower() )
+                      .Select(a => new OrderAdminViewDto
+                      {
+                          OrderId = a.OrderId,
+                          OrderDate = a.OrderDate.Value,
+                          OrderStatus = a.OrderStatus,
+                          OrderString = a.OrderString,
+                          TransactionId = a.TransactionId,
+                          UserName = a._UserAd.CustomerName
+
+                      }).ToListAsync();
+
+                    return stOrders;
+                }
+
+                if (dto.OrderStatus != null && dto.OrderStatus == "Delivered")
+                {
+                    var stOrders = await _context.Order
+                   .Include(a => a._UserAd)
+                      .Where(n =>  n.OrderStatus.ToLower() == dto.OrderStatus.ToLower())
+                      .Select(a => new OrderAdminViewDto
+                      {
+                          OrderId = a.OrderId,
+                          OrderDate = a.OrderDate.Value,
+                          OrderStatus = a.OrderStatus,
+                          OrderString = a.OrderString,
+                          TransactionId = a.TransactionId,
+                          UserName = a._UserAd.CustomerName
+
+                      }).ToListAsync();
+
+                    return stOrders;
+                }
+
+                if (dto.OrderStatus != null && dto.OrderStatus == "all")
+                {
+                    var stOrders = await _context.Order
+                   .Include(a => a._UserAd)
+                    
+                      .Select(a => new OrderAdminViewDto
+                      {
+                          OrderId = a.OrderId,
+                          OrderDate = a.OrderDate.Value,
+                          OrderStatus = a.OrderStatus,
+                          OrderString = a.OrderString,
+                          TransactionId = a.TransactionId,
+                          UserName = a._UserAd.CustomerName
+
+                      }).ToListAsync();
+
+                    return stOrders;
+                }
+
+              
+                    var dateOrders = await _context.Order
+                                    .Include(a => a._UserAd)
+                                       .Where(n => n.OrderDate.Value >= dto.OrderDatefirst && n.OrderDate.Value<= dto.OrderDateEnd)
+                                       .Select(a => new OrderAdminViewDto
+                                       {
+                                           OrderId = a.OrderId,
+                                           OrderDate = a.OrderDate.Value,
+                                           OrderStatus = a.OrderStatus,
+                                           OrderString = a.OrderString,
+                                           TransactionId = a.TransactionId,
+                                           UserName = a._UserAd.CustomerName
+
+                                       }).ToListAsync();
+
+                    return dateOrders ;
+                
+
+                
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.InnerException?.Message);
+            }
+
         }
 
 

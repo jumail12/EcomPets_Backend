@@ -81,7 +81,7 @@ namespace Pets_Project_Backend.Controllers
 
         [Authorize]
         [HttpPost("individual-pro-buy/{pro_id}")]
-        public async Task<IActionResult> individual_probuy(int pro_id, [FromBody]CreateOrder_Dto dto)
+        public async Task<IActionResult> individual_probuy(int pro_id, CreateOrder_Dto dto)
         {
             try
             {
@@ -212,5 +212,36 @@ namespace Pets_Project_Backend.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+
+        [HttpPost("SearchOrders")]
+        public async Task<IActionResult> SearchOrders([FromBody] OrderSearchDto orderSearchDto)
+        {
+            if (orderSearchDto == null)
+            {
+                return BadRequest("Invalid request body.");
+            }
+
+            try
+            {
+                var u_id = Convert.ToInt32(HttpContext.Items["Id"]);
+                var res = await _orderService.SearchOrder(
+                    orderSearchDto
+                );
+
+                if (res == null)
+                {
+                    return NoContent();
+                }
+
+                return Ok(res);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message, traceId = HttpContext.TraceIdentifier });
+            }
+        }
+
+
     }
 }

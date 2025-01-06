@@ -296,6 +296,22 @@
   },
   {
     "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
+    "Method": "SearchOrders",
+    "RelativePath": "api/Order/SearchOrders",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderSearchDto",
+        "Type": "Pets_Project_Backend.Data.Models.OrderModel.Order_Dto.OrderSearchDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "Pets_Project_Backend.Controllers.OrderController",
     "Method": "TotalRevenue",
     "RelativePath": "api/Order/Total Revenue",
     "HttpMethod": "GET",
