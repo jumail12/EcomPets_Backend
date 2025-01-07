@@ -12,10 +12,12 @@ namespace Pets_Project_Backend.Services.Order_Services
     {
         private readonly ApplicationContext _context;
         private readonly IConfiguration _configuration;
-        public OrderService(ApplicationContext context, IConfiguration configuration)
+        private readonly ILogger<ApplicationContext> logger;
+        public OrderService(ApplicationContext context, IConfiguration configuration, ILogger<ApplicationContext> logger)
         {
             _context = context;
             _configuration = configuration;
+            this.logger = logger;
         }
 
         //razor pay
@@ -358,8 +360,10 @@ namespace Pets_Project_Backend.Services.Order_Services
         {
             try
             {
-
-                if (dto.OrderId != null)
+                Console.WriteLine(dto.OrderDatefirst.Value+"---------------------------------------------------------------------------------------------------");
+                logger.LogInformation(dto.OrderDatefirst.Value + "---------------------------------------------------------------------------------------------------");
+               
+                if (dto.OrderId != null && dto.OrderId>0)
                 {
                     var orders = await _context.Order
                .Include(a => a._UserAd)
@@ -378,7 +382,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                 }
               
 
-                if (dto.userId != null )
+               else if (dto.userId != null && dto.userId>0 )
                 {
 
                     var orders = await _context.Order
@@ -397,7 +401,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                     return orders;
                 }
 
-                if (dto.OrderStatus != null && dto.OrderStatus== "OderPlaced")
+              else  if (dto.OrderStatus != "string" && dto.OrderStatus== "OderPlaced")
                 {
                     var stOrders = await _context.Order
                    .Include(a => a._UserAd)
@@ -416,7 +420,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                     return stOrders;
                 }
 
-                if (dto.OrderStatus != null && dto.OrderStatus == "Delivered")
+             else   if (dto.OrderStatus != "string" && dto.OrderStatus == "Delivered")
                 {
                     var stOrders = await _context.Order
                    .Include(a => a._UserAd)
@@ -435,7 +439,7 @@ namespace Pets_Project_Backend.Services.Order_Services
                     return stOrders;
                 }
 
-                if (dto.OrderStatus != null && dto.OrderStatus == "all")
+              else  if (dto.OrderStatus != "string" && dto.OrderStatus == "all")
                 {
                     var stOrders = await _context.Order
                    .Include(a => a._UserAd)
@@ -454,25 +458,26 @@ namespace Pets_Project_Backend.Services.Order_Services
                     return stOrders;
                 }
 
-              
-                    var dateOrders = await _context.Order
-                                    .Include(a => a._UserAd)
-                                       .Where(n => n.OrderDate.Value >= dto.OrderDatefirst && n.OrderDate.Value<= dto.OrderDateEnd)
-                                       .Select(a => new OrderAdminViewDto
-                                       {
-                                           OrderId = a.OrderId,
-                                           OrderDate = a.OrderDate.Value,
-                                           OrderStatus = a.OrderStatus,
-                                           OrderString = a.OrderString,
-                                           TransactionId = a.TransactionId,
-                                           UserName = a._UserAd.CustomerName
 
-                                       }).ToListAsync();
+                var dateOrders = await _context.Order
+                  .Include(a => a._UserAd)
+                  .Where(n => n.OrderDate.HasValue &&
+                              dto.OrderDatefirst.HasValue && dto.OrderDateEnd.HasValue &&
+                              n.OrderDate.Value.Date >= dto.OrderDatefirst.Value.Date &&
+                              n.OrderDate.Value.Date <= dto.OrderDateEnd.Value.Date)
+                  .Select(a => new OrderAdminViewDto
+                  {
+                      OrderId = a.OrderId,
+                      OrderDate = a.OrderDate.Value,
+                      OrderStatus = a.OrderStatus,
+                      OrderString = a.OrderString,
+                      TransactionId = a.TransactionId,
+                      UserName = a._UserAd.CustomerName
+                  })
+                  .ToListAsync();
 
-                    return dateOrders ;
-                
+                return dateOrders;
 
-                
 
             }
             catch (Exception ex)
