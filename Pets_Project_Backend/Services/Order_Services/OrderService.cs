@@ -360,8 +360,7 @@ namespace Pets_Project_Backend.Services.Order_Services
         {
             try
             {
-                Console.WriteLine(dto.OrderDatefirst.Value+"---------------------------------------------------------------------------------------------------");
-                logger.LogInformation(dto.OrderDatefirst.Value + "---------------------------------------------------------------------------------------------------");
+                logger.LogInformation(dto.OrderDatefirst.Value.Date + "---------------------------------------------------------------------------------------------------");
                
                 if (dto.OrderId != null && dto.OrderId>0)
                 {

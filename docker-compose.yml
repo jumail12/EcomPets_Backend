@@ -1,0 +1,6 @@
+services:
+  pets_project_backend:
+    image: ${DOCKER_REGISTRY-}petsprojectbackend
+    build:
+      context: .
+      dockerfile: Pets_Project_Backend/Dockerfile
