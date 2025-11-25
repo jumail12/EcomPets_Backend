@@ -142,13 +142,14 @@ namespace Pets_Project_Backend
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            // if (app.Environment.IsDevelopment()) // <--- REMOVE OR COMMENT OUT THIS LINE
+            // {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+            // } // <--- REMOVE OR COMMENT OUT THIS LINE
 
             app.UseCors("ReactPolicy");
+            // ... rest of your code
 
             app.UseHttpsRedirection();
 
