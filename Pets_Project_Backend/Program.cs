@@ -5,7 +5,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Pets_Project_Backend.Context;
 using Pets_Project_Backend.Services.Auth_Services;
-using Pets_Project_Backend.Mapper;
 using Pets_Project_Backend.Services.Category_Services;
 using Pets_Project_Backend.Services.Product_Services;
 using Pets_Project_Backend.CloudinaryServices;
@@ -70,17 +69,15 @@ namespace Pets_Project_Backend
             //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddDbContext<ApplicationContext>(options =>
-            options.UseSqlServer(
-                builder.Configuration.GetConnectionString("DefaultConnection"),
-                sqlOptions => sqlOptions.EnableRetryOnFailure(
-                    maxRetryCount: 5,                     // Retry up to 5 times
-                    maxRetryDelay: TimeSpan.FromSeconds(30), // Maximum delay between retries
-                    errorNumbersToAdd: null                 // Optional: Additional SQL error codes to treat as transient
-                ))   
-            );
-
-
-            builder.Services.AddAutoMapper(typeof(MapperProfile));
+             options.UseNpgsql(
+                 builder.Configuration.GetConnectionString("DefaultConnection"),
+                 npgsqlOptions => npgsqlOptions.EnableRetryOnFailure(
+                     maxRetryCount: 5,
+                     maxRetryDelay: TimeSpan.FromSeconds(30),
+                     errorCodesToAdd: null // PostgreSQL-specific transient errors (optional)
+                 )
+             )
+         );
 
 
             //----------------------------------------------------------------------------------------
