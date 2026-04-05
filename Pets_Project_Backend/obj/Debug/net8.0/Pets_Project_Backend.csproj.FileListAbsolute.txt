@@ -532,3 +532,4 @@ D:\My Projects\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\ob
 D:\My Projects\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\obj\Debug\net8.0\Pets_Project_Backend.pdb
 D:\My Projects\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\obj\Debug\net8.0\Pets_Project_Backend.genruntimeconfig.cache
 D:\My Projects\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\obj\Debug\net8.0\ref\Pets_Project_Backend.dll
+D:\My Projects\BackEnd_Pets_Project\Pets_Project_Backend\Pets_Project_Backend\obj\Debug\net8.0\swae.build.ex.cache

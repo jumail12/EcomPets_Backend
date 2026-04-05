@@ -31,16 +31,12 @@ namespace Pets_Project_Backend
             });
             builder.Services.AddControllers();
 
-            // Swagger / OpenAPI
             builder.Services.AddEndpointsApiExplorer();
-            //----------------------------------------------------------------------------------------
 
            
             builder.Services.AddSwaggerGen(options =>
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "PetsEcom  API", Version = "v1" });
-
-                // Add JWT Authentication in Swagger
                 options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -74,15 +70,14 @@ namespace Pets_Project_Backend
             //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
             builder.Services.AddDbContext<ApplicationContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        sqlOptions => sqlOptions.EnableRetryOnFailure(
-            maxRetryCount: 5,                     // Retry up to 5 times
-            maxRetryDelay: TimeSpan.FromSeconds(30), // Maximum delay between retries
-            errorNumbersToAdd: null                 // Optional: Additional SQL error codes to treat as transient
-        )
-    )
-);
+            options.UseSqlServer(
+                builder.Configuration.GetConnectionString("DefaultConnection"),
+                sqlOptions => sqlOptions.EnableRetryOnFailure(
+                    maxRetryCount: 5,                     // Retry up to 5 times
+                    maxRetryDelay: TimeSpan.FromSeconds(30), // Maximum delay between retries
+                    errorNumbersToAdd: null                 // Optional: Additional SQL error codes to treat as transient
+                ))   
+            );
 
 
             builder.Services.AddAutoMapper(typeof(MapperProfile));
@@ -102,9 +97,6 @@ namespace Pets_Project_Backend
             builder.Services.AddScoped<ICloudinaryService, CloudinaryService>();
             //----------------------------------------------------------------------------------------
 
-            //----------------------------------------------------------------------------------------
-
-            // JWT service
             // Jwt authentication
             builder.Services.AddAuthentication(options =>
             {
@@ -141,19 +133,14 @@ namespace Pets_Project_Backend
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
-            // if (app.Environment.IsDevelopment()) // <--- REMOVE OR COMMENT OUT THIS LINE
-            // {
             app.UseSwagger();
             app.UseSwaggerUI();
-            // } // <--- REMOVE OR COMMENT OUT THIS LINE
 
             app.UseCors("ReactPolicy");
-            // ... rest of your code
 
             app.UseHttpsRedirection();
 
-            app.UseAuthentication(); // Must be before UseAuthorization
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseMiddleware<UserIdMiddleware>();
